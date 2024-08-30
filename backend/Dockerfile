@@ -29,6 +29,9 @@ ENV DB_PORT=5432
 ENV DB_NAME=akimob
 ENV DB_USERNAME=akimob
 ENV DB_PASSWORD=your_password
+ENV SUPER_ADMIN_USERNAME=admin
+ENV SUPER_ADMIN_PASSWORD=admin
+ENV SUPER_ADMIN_EMAIL=admin@email.com
 
 # Expose the port on which the application will run
 EXPOSE 8080
