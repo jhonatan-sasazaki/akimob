@@ -26,6 +26,10 @@ services:
       SUPER_ADMIN_USERNAME: ${SUPER_ADMIN_USERNAME}
       SUPER_ADMIN_PASSWORD: ${SUPER_ADMIN_PASSWORD}
       SUPER_ADMIN_EMAIL: ${SUPER_ADMIN_EMAIL}
+      LOG_MAX_HISTORY: ${LOG_MAX_HISTORY}
+      LOG_TOTAL_SIZE_CAP: ${LOG_TOTAL_SIZE_CAP}
+    volumes:
+      - ./logs:/app/logs
     ports:
       - 8080:8080
     depends_on:

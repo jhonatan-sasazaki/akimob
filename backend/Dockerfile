@@ -23,15 +23,19 @@ WORKDIR /app
 # Copy the built JAR file from the previous stage
 COPY --from=build /app/target/*.jar akimob.jar
 
-# Set the environment variables for the database connection
+# Database connection
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
 ENV DB_NAME=akimob
 ENV DB_USERNAME=akimob
 ENV DB_PASSWORD=your_password
+# Super admin user
 ENV SUPER_ADMIN_USERNAME=admin
 ENV SUPER_ADMIN_PASSWORD=admin
 ENV SUPER_ADMIN_EMAIL=admin@email.com
+# Logging
+ENV LOG_MAX_HISTORY=30
+ENV LOG_TOTAL_SIZE_CAP=10GB
 
 # Expose the port on which the application will run
 EXPOSE 8080
