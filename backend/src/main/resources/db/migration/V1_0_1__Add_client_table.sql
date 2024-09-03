@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS client (
     updated_at TIMESTAMP DEFAULT NULL,
 
     CONSTRAINT client_name_uk UNIQUE (name),
-    CONSTRAINT client_name_ck CHECK (name ~ '^\S{1,255}$') -- 1-255 characters, no spaces
+    CONSTRAINT client_name_ck CHECK (char_length(name) BETWEEN 1 AND 255) -- 1-255 characters
 );
