@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.auth.entities;
+package br.com.akrasia.akimob.superadmin;
 
 import br.com.akrasia.akimob.user.User;
 import jakarta.persistence.Column;

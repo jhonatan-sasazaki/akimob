@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.akrasia.akimob.auth.entities.RoleGroup;
-import br.com.akrasia.akimob.auth.entities.Superadmin;
+import br.com.akrasia.akimob.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;

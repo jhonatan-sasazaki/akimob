@@ -7,7 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.com.akrasia.akimob.auth.entities.Superadmin;
+import br.com.akrasia.akimob.superadmin.Superadmin;
 import br.com.akrasia.akimob.user.User;
 import br.com.akrasia.akimob.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
