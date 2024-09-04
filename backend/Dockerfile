@@ -29,6 +29,8 @@ ENV DB_PORT=5432
 ENV DB_NAME=akimob
 ENV DB_USERNAME=akimob
 ENV DB_PASSWORD=your_password
+# JWT
+ENV JWT_SECRET=your-very-secure-secret
 # Super admin user
 ENV SUPER_ADMIN_USERNAME=admin
 ENV SUPER_ADMIN_PASSWORD=admin
