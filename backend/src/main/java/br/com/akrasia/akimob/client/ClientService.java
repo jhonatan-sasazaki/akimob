@@ -14,7 +14,7 @@ public class ClientService {
 
     public Client createClient(ClientCreateDTO clientCreateDTO) {
         Client client = new Client();
-        String clientName = StringUtils.normalizeSpace(clientCreateDTO.getName());
+        String clientName = StringUtils.normalizeSpace(clientCreateDTO.name());
         client.setName(clientName);
         return clientRepository.save(client);
     }
