@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.akrasia.akimob.auth.config.CustomAuthenticationEntryPoint;
 import br.com.akrasia.akimob.auth.config.SecurityConfig;
 import br.com.akrasia.akimob.auth.services.JpaUserDetailsService;
 import br.com.akrasia.akimob.auth.services.TokenService;
@@ -26,7 +27,7 @@ import br.com.akrasia.akimob.client.ClientService;
 import br.com.akrasia.akimob.client.dtos.ClientCreateDTO;
 
 @WebMvcTest(SuperadminController.class)
-@Import(SecurityConfig.class)
+@Import({ SecurityConfig.class, CustomAuthenticationEntryPoint.class })
 public class SuperadminControllerTests {
 
     @MockBean
