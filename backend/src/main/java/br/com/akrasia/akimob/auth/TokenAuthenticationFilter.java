@@ -16,9 +16,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
@@ -31,13 +33,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String token = getToken(request);
-        if (token == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String username = tokenService.validateToken(token);
+
         if (username == null) {
+            log.info("Invalid token, UNAUTHORIZED");
             filterChain.doFilter(request, response);
             return;
         }
