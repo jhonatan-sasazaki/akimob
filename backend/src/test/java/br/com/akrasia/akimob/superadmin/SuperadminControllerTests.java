@@ -10,11 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,7 +19,6 @@ import br.com.akrasia.akimob.auth.config.CustomAuthenticationEntryPoint;
 import br.com.akrasia.akimob.auth.config.SecurityConfig;
 import br.com.akrasia.akimob.auth.services.JpaUserDetailsService;
 import br.com.akrasia.akimob.auth.services.TokenService;
-import br.com.akrasia.akimob.client.Client;
 import br.com.akrasia.akimob.client.ClientService;
 import br.com.akrasia.akimob.client.dtos.ClientCreateDTO;
 
@@ -46,21 +42,15 @@ public class SuperadminControllerTests {
     private ObjectMapper objectMapper;
 
     private ClientCreateDTO clientCreateDTO;
-    private Client client;
 
     @BeforeEach
     public void setUp() {
         clientCreateDTO = new ClientCreateDTO("Test Client");
-
-        client = new Client();
-        client.setId(1L);
-        client.setName("Test Client");
     }
 
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_Superadmin() throws Exception {
-        when(clientService.createClient(any(ClientCreateDTO.class))).thenReturn(client);
 
         mockMvc.perform(post("/superadmin/client")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -120,6 +110,5 @@ public class SuperadminControllerTests {
                 .content(objectMapper.writeValueAsString(new ClientCreateDTO("a".repeat(256)))))
                 .andExpect(status().isBadRequest());
     }
-
 
 }
