@@ -114,21 +114,21 @@ public class SuperadminControllerTests {
 
     @Test
     public void listClients_Unauthenticaed() throws Exception {
-        mockMvc.perform(get(null, "/superadmin/clients"))
+        mockMvc.perform(get("/superadmin/clients"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser
     public void listClients_Unauthorized() throws Exception {
-        mockMvc.perform(get(null, "/superadmin/clients"))
+        mockMvc.perform(get("/superadmin/clients"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void listClients_Superadmin() throws Exception {
-        mockMvc.perform(get(null, "/superadmin/clients"))
+        mockMvc.perform(get("/superadmin/clients"))
                 .andExpect(status().isOk());
     }
 
