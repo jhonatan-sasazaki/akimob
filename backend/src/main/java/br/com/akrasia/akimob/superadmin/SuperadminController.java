@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.akrasia.akimob.client.ClientService;
 import br.com.akrasia.akimob.client.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.client.dtos.ClientResponseDTO;
+import br.com.akrasia.akimob.user.UserService;
+import br.com.akrasia.akimob.user.dtos.UserCreateDTO;
+import br.com.akrasia.akimob.user.dtos.UserResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SuperadminController {
 
     private final ClientService clientService;
+    private final UserService userService;
 
     @PostMapping("/clients")
     public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Valid ClientCreateDTO clientCreateDTO) {
@@ -37,5 +41,11 @@ public class SuperadminController {
     public ResponseEntity<List<ClientResponseDTO>> listClients(@PageableDefault(size = 10) Pageable pageable) {
         List<ClientResponseDTO> clients = clientService.listClients(pageable);
         return ResponseEntity.ok(clients);
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        UserResponseDTO user = userService.createUser(userCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }

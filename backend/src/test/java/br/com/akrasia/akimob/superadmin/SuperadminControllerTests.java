@@ -22,6 +22,8 @@ import br.com.akrasia.akimob.auth.services.JpaUserDetailsService;
 import br.com.akrasia.akimob.auth.services.TokenService;
 import br.com.akrasia.akimob.client.ClientService;
 import br.com.akrasia.akimob.client.dtos.ClientCreateDTO;
+import br.com.akrasia.akimob.user.UserService;
+import br.com.akrasia.akimob.user.dtos.UserCreateDTO;
 
 @WebMvcTest(SuperadminController.class)
 @Import({ SecurityConfig.class, CustomAuthenticationEntryPoint.class })
@@ -34,6 +36,9 @@ public class SuperadminControllerTests {
     private ClientService clientService;
 
     @MockBean
+    private UserService userService;
+
+    @MockBean
     private JpaUserDetailsService userDetailsService;
 
     @Autowired
@@ -43,10 +48,12 @@ public class SuperadminControllerTests {
     private ObjectMapper objectMapper;
 
     private ClientCreateDTO clientCreateDTO;
+    private UserCreateDTO userCreateDTO;
 
     @BeforeEach
     public void setUp() {
         clientCreateDTO = new ClientCreateDTO("Test Client");
+        userCreateDTO = new UserCreateDTO("testuser", "password", "user@email.com");
     }
 
     @Test
@@ -130,6 +137,164 @@ public class SuperadminControllerTests {
     public void listClients_Superadmin() throws Exception {
         mockMvc.perform(get("/superadmin/clients"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void createUser_Unauthenticated() throws Exception {
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userCreateDTO)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    public void createUser_Unauthorized() throws Exception {
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userCreateDTO)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_Superadmin() throws Exception {
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userCreateDTO)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_EmptyUsername() throws Exception {
+        UserCreateDTO userWithInvalidName = new UserCreateDTO("", "password", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithInvalidName)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_WhitespaceUsername() throws Exception {
+        UserCreateDTO userWithInvalidName = new UserCreateDTO("     ", "password", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithInvalidName)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_NullUsername() throws Exception {
+        UserCreateDTO userWithInvalidName = new UserCreateDTO(null, "password", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithInvalidName)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_UsernameTooLong() throws Exception {
+        UserCreateDTO userWithInvalidName = new UserCreateDTO("a".repeat(256), "password", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithInvalidName)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_EmptyPassword() throws Exception {
+        UserCreateDTO userWithInvalidPassword = new UserCreateDTO("username", "", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithInvalidPassword)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_WhitespacePassword() throws Exception {
+        UserCreateDTO userWithWhitespacePassword = new UserCreateDTO("username", "         ", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithWhitespacePassword)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_NullPassword() throws Exception {
+        UserCreateDTO userWithNullPassword = new UserCreateDTO("username", null, "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithNullPassword)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_PasswordTooShort() throws Exception {
+        UserCreateDTO userWithShortPassword = new UserCreateDTO("username", "1234567", "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithShortPassword)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_PasswordTooLong() throws Exception {
+        UserCreateDTO userWithLongPassword = new UserCreateDTO("username", "a".repeat(65), "user@email.com");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithLongPassword)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_NullEmail() throws Exception {
+        UserCreateDTO userWithNullEmail = new UserCreateDTO("username", "password", null);
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithNullEmail)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_EmptyEmail() throws Exception {
+        UserCreateDTO userWithEmptyEmail = new UserCreateDTO("username", "password", "");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithEmptyEmail)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void createUser_WhitespaceEmail() throws Exception {
+        UserCreateDTO userWithWhitespaceEmail = new UserCreateDTO("username", "password", "     ");
+
+        mockMvc.perform(post("/superadmin/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithWhitespaceEmail)))
+                .andExpect(status().isBadRequest());
     }
 
 }
