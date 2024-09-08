@@ -2,6 +2,8 @@ package br.com.akrasia.akimob.user;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import br.com.akrasia.akimob.superadmin.Superadmin;
 import br.com.akrasia.akimob.user.dtos.UserCreateDTO;
 import br.com.akrasia.akimob.user.dtos.UserResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,20 @@ public class UserService {
         user = userRepository.save(user);
 
         log.info("User " + user.getUsername() + " created: " + user.getId());
+        return new UserResponseDTO(user);
+    }
+
+    public UserResponseDTO createSuperadmin(UserCreateDTO userCreateDTO) {
+        log.info("Creating superadmin: " + userCreateDTO.username());
+
+        User user = new User();
+        user.setUsername(userCreateDTO.username());
+        user.setPassword(passwordEncoder.encode(userCreateDTO.password()));
+        user.setEmail(userCreateDTO.email());
+        user.setSuperadmin(new Superadmin(user));
+        user = userRepository.save(user);
+        
+        log.info("Superadmin " + user.getUsername() + " created: " + user.getId());
         return new UserResponseDTO(user);
     }
 

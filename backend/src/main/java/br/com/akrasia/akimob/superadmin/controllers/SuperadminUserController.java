@@ -28,4 +28,10 @@ public class SuperadminUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
+    @PostMapping("/superadmin")
+    public ResponseEntity<UserResponseDTO> createSuperadmin(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        UserResponseDTO user = userService.createSuperadmin(userCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
 }
