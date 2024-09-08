@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,15 +53,15 @@ public class SuperadminControllerTests {
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_Superadmin() throws Exception {
 
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(clientCreateDTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
     public void createClient_Unauthenticated() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(clientCreateDTO)))
                 .andExpect(status().isUnauthorized());
@@ -69,7 +70,7 @@ public class SuperadminControllerTests {
     @Test
     @WithMockUser
     public void createClient_Unauthorized() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(clientCreateDTO)))
                 .andExpect(status().isForbidden());
@@ -78,7 +79,7 @@ public class SuperadminControllerTests {
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_EmptyName() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ClientCreateDTO(""))))
                 .andExpect(status().isBadRequest());
@@ -87,7 +88,7 @@ public class SuperadminControllerTests {
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_WhitespaceName() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ClientCreateDTO("     "))))
                 .andExpect(status().isBadRequest());
@@ -96,7 +97,7 @@ public class SuperadminControllerTests {
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_Null() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ClientCreateDTO(null))))
                 .andExpect(status().isBadRequest());
@@ -105,10 +106,30 @@ public class SuperadminControllerTests {
     @Test
     @WithMockUser(roles = "SUPERADMIN")
     public void createClient_NameTooLong() throws Exception {
-        mockMvc.perform(post("/superadmin/client")
+        mockMvc.perform(post("/superadmin/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ClientCreateDTO("a".repeat(256)))))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void listClients_Unauthenticaed() throws Exception {
+        mockMvc.perform(get(null, "/superadmin/clients"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    public void listClients_Unauthorized() throws Exception {
+        mockMvc.perform(get(null, "/superadmin/clients"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "SUPERADMIN")
+    public void listClients_Superadmin() throws Exception {
+        mockMvc.perform(get(null, "/superadmin/clients"))
+                .andExpect(status().isOk());
     }
 
 }
