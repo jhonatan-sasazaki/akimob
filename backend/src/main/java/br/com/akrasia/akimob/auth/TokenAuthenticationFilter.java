@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.akrasia.akimob.auth.config.CustomAuthenticationEntryPoint;
 import br.com.akrasia.akimob.auth.services.JpaUserDetailsService;
 import br.com.akrasia.akimob.auth.services.TokenService;
 import jakarta.servlet.FilterChain;
@@ -25,6 +26,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final JpaUserDetailsService userDetailsService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Override
     protected void doFilterInternal(
@@ -33,11 +35,16 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String token = getToken(request);
-        String username = tokenService.validateToken(token);
+        if (token == null) {
+            log.debug("No Bearer token found continuing filter chain");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
+        String username = tokenService.validateToken(token);
         if (username == null) {
             log.info("Invalid token, UNAUTHORIZED");
-            filterChain.doFilter(request, response);
+            customAuthenticationEntryPoint.commence(request, response, null);
             return;
         }
 
