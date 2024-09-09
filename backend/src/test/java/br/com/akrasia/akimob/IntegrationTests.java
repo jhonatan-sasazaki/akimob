@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class IntegrationTests {
 
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:alpine")
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
             .withCopyFileToContainer(
                     // Use migration scripts from src/main/resources
                     MountableFile.forHostPath("src/main/resources/db/migration"),
