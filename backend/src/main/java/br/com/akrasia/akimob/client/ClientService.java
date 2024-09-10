@@ -21,14 +21,14 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     public ClientResponseDTO createClient(ClientCreateDTO clientCreateDTO) {
-        log.info("Creating client: " + clientCreateDTO.name());
+        log.info("Creating client: {}", clientCreateDTO.name());
 
         Client client = new Client();
         String clientName = StringUtils.normalizeSpace(clientCreateDTO.name());
         client.setName(clientName);
         clientRepository.save(client);
 
-        log.info("Client created: " + clientName);
+        log.info("Client created: {}", clientName);
         return new ClientResponseDTO(client);
     }
 

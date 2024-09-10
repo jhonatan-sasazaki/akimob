@@ -27,7 +27,7 @@ public class TokenService {
 
     public String createToken(UserDetails user) {
 
-        log.info("Creating token for user: " + user.getUsername());
+        log.info("Creating token for user: {}", user.getUsername());
 
         try {
             String token = JWT.create()
@@ -36,12 +36,12 @@ public class TokenService {
                     .withExpiresAt(createExpirationTime())
                     .sign(algorithm);
 
-            log.info("Token created successfully for user: " + user.getUsername());
+            log.info("Token created successfully for user: {}", user.getUsername());
 
             return token;
 
         } catch (JWTCreationException e) {
-            log.error("Error creating JWT token, " + e.getMessage());
+            log.error("Error creating JWT token, {}", e.getMessage());
             throw new RuntimeException("Error creating JWT token", e);
         }
     }
@@ -57,11 +57,11 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
 
-            log.info("Token validated successfully for subject: " + subject);
+            log.info("Token validated successfully for subject: {}", subject);
             return subject;
 
         } catch (JWTVerificationException e) {
-            log.warn("Token validation failed: " + e.getMessage());
+            log.warn("Token validation failed: {}", e.getMessage());
             return null;
         }
     }
