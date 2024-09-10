@@ -1,6 +1,5 @@
 package br.com.akrasia.akimob.auth.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -10,17 +9,17 @@ import org.springframework.stereotype.Component;
 import br.com.akrasia.akimob.superadmin.Superadmin;
 import br.com.akrasia.akimob.user.User;
 import br.com.akrasia.akimob.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class SuperadminInitializer implements ApplicationRunner {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${akimob.superadmin.username}")
     private String superAdminUsername;
@@ -49,5 +48,5 @@ public class SuperadminInitializer implements ApplicationRunner {
             log.info("Superadmin found, skipping creation");
         }
     }
-    
+
 }
