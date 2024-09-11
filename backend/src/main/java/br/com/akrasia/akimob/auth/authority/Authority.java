@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.auth.entities;
+package br.com.akrasia.akimob.auth.authority;
 
 import java.util.Date;
 

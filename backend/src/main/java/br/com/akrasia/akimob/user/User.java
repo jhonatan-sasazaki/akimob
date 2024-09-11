@@ -6,7 +6,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import br.com.akrasia.akimob.auth.entities.RoleGroup;
+import br.com.akrasia.akimob.auth.rolegroup.RoleGroup;
 import br.com.akrasia.akimob.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

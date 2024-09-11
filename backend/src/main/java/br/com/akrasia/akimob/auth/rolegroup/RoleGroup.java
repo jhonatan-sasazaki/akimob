@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.auth.entities;
+package br.com.akrasia.akimob.auth.rolegroup;
 
 import java.util.Date;
 import java.util.Set;
@@ -6,7 +6,8 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import br.com.akrasia.akimob.client.Client;
+import br.com.akrasia.akimob.auth.authority.Authority;
+import br.com.akrasia.akimob.client.ClientEntity;
 import br.com.akrasia.akimob.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,23 +18,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class RoleGroup {
+public class RoleGroup extends ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_group_id")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
 
     private String name;
     private String description;
