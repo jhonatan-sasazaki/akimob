@@ -1,7 +1,6 @@
 package br.com.akrasia.akimob.client;
 
 import java.util.Date;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Client {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id")
@@ -28,5 +27,5 @@ public class Client {
     private Date createdAt;
 
     @UpdateTimestamp
-    private Date updatedAt;    
+    private Date updatedAt;
 }

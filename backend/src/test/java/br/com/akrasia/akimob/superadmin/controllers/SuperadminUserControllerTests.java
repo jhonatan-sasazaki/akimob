@@ -20,6 +20,7 @@ import br.com.akrasia.akimob.auth.config.CustomAuthenticationEntryPoint;
 import br.com.akrasia.akimob.auth.config.SecurityConfig;
 import br.com.akrasia.akimob.auth.services.JpaUserDetailsService;
 import br.com.akrasia.akimob.auth.services.TokenService;
+import br.com.akrasia.akimob.multiclient.ClientResolver;
 import br.com.akrasia.akimob.user.UserService;
 import br.com.akrasia.akimob.user.dtos.UserCreateDTO;
 
@@ -35,6 +36,9 @@ public class SuperadminUserControllerTests {
 
     @MockBean
     private JpaUserDetailsService userDetailsService;
+
+    @MockBean
+    private ClientResolver clientResolver;
 
     @Autowired
     private MockMvc mockMvc;

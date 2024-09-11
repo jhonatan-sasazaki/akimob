@@ -10,9 +10,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import br.com.akrasia.akimob.auth.TokenAuthenticationFilter;
+import br.com.akrasia.akimob.multiclient.ClientResolverFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final ClientResolverFilter clientResolverFilter;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;    
@@ -35,7 +36,8 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(clientResolverFilter, AuthorizationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter, AuthorizationFilter.class)
                 .build();
     }
 
