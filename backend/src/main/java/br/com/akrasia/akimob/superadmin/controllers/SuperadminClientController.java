@@ -1,9 +1,8 @@
 package br.com.akrasia.akimob.superadmin.controllers;
 
-import java.util.List;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,9 +33,9 @@ public class SuperadminClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientResponseDTO>> listClients(@PageableDefault(size = 10) Pageable pageable) {
-        List<ClientResponseDTO> clients = clientService.listClients(pageable);
+    public ResponseEntity<PagedModel<ClientResponseDTO>> listClients(@PageableDefault(size = 10) Pageable pageable) {
+        PagedModel<ClientResponseDTO> clients = clientService.listClients(pageable);
         return ResponseEntity.ok(clients);
     }
-    
+
 }

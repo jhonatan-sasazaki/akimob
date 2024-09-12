@@ -1,11 +1,9 @@
 package br.com.akrasia.akimob.client;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import br.com.akrasia.akimob.auth.rolegroup.RoleGroupService;
@@ -37,13 +35,11 @@ public class ClientService {
         return new ClientResponseDTO(savedClient);
     }
 
-    public List<ClientResponseDTO> listClients(Pageable pageable) {
+    public PagedModel<ClientResponseDTO> listClients(Pageable pageable) {
         log.info("Listing clients");
 
         Page<Client> clientsPage = clientRepository.findAll(pageable);
-        return clientsPage.stream()
-                .map(ClientResponseDTO::new)
-                .collect(Collectors.toList());
+        return new PagedModel<>(clientsPage.map(ClientResponseDTO::new));
     }
 
 }
