@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.akrasia.akimob.client.ClientService;
 import br.com.akrasia.akimob.client.dtos.ClientCreateDTO;
+import br.com.akrasia.akimob.client.dtos.ClientCreateUserDTO;
+import br.com.akrasia.akimob.client.dtos.ClientCreateUserResponseDTO;
 import br.com.akrasia.akimob.client.dtos.ClientResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,14 @@ public class SuperadminClientController {
     public ResponseEntity<PagedModel<ClientResponseDTO>> listClients(@PageableDefault(size = 10) Pageable pageable) {
         PagedModel<ClientResponseDTO> clients = clientService.listClients(pageable);
         return ResponseEntity.ok(clients);
+    }
+
+    @PostMapping("/{clientId}/users")
+    public ResponseEntity<ClientCreateUserResponseDTO> createClientUser(@PathVariable Long clientId,
+            @RequestBody @Valid ClientCreateUserDTO clientCreateUserDTO) {
+
+        ClientCreateUserResponseDTO user = clientService.createClientUser(clientId, clientCreateUserDTO.userId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
 }
