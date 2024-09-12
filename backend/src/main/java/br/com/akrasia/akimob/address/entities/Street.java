@@ -3,10 +3,14 @@ package br.com.akrasia.akimob.address.entities;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import br.com.akrasia.akimob.user.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +22,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Street {
     
     @Id
@@ -25,7 +30,7 @@ public class Street {
     @Column(name = "street_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "locality_id")
     private Locality locality;
 
@@ -35,6 +40,7 @@ public class Street {
     private Date createdAt;
 
     @ManyToOne
+    @CreatedBy
     @JoinColumn(name = "created_by")
     private User createdBy;
 
