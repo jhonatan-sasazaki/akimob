@@ -1,5 +1,8 @@
 package br.com.akrasia.akimob.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +42,16 @@ public class UserService {
         user.setEmail(userCreateDTO.email());
         user.setSuperadmin(new Superadmin(user));
         user = userRepository.save(user);
-        
+
         log.info("Superadmin {} created: {}", user.getUsername(), user.getId());
         return new UserResponseDTO(user);
+    }
+
+    public PagedModel<UserResponseDTO> listUsers(Pageable pageable) {
+        log.debug("Listing users");
+
+        Page<User> users = userRepository.findAll(pageable);
+        return new PagedModel<>(users.map(UserResponseDTO::new));
     }
 
 }
