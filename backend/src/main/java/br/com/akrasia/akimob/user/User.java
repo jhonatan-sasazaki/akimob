@@ -1,21 +1,21 @@
 package br.com.akrasia.akimob.user;
 
 import java.util.Date;
+import java.util.Set;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import br.com.akrasia.akimob.auth.rolegroup.RoleGroup;
+import br.com.akrasia.akimob.client.ClientUser;
 import br.com.akrasia.akimob.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -36,9 +36,8 @@ public class User {
     private String password;
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "client_user_account", joinColumns = @JoinColumn(name = "user_account_id"), inverseJoinColumns = @JoinColumn(name = "role_group_id"))
-    private RoleGroup roleGroup;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ClientUser> userClients;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn

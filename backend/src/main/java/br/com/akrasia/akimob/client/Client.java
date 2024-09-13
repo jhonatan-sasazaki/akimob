@@ -6,15 +6,15 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import br.com.akrasia.akimob.user.User;
+import br.com.akrasia.akimob.auth.rolegroup.RoleGroup;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,13 +29,9 @@ public class Client {
     private Long id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-        name = "client_user_account",
-        joinColumns = @JoinColumn(name = "client_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_account_id")
-    )
-    private Set<User> users;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "client_id")
+    private Set<RoleGroup> roleGroups;
 
     @CreationTimestamp
     private Date createdAt;

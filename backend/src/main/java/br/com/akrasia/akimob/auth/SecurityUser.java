@@ -3,7 +3,6 @@ package br.com.akrasia.akimob.auth;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.akrasia.akimob.auth.authority.Authority;
-import br.com.akrasia.akimob.auth.rolegroup.RoleGroup;
 import br.com.akrasia.akimob.user.User;
 import lombok.AllArgsConstructor;
 
@@ -49,11 +47,10 @@ public class SecurityUser implements UserDetails {
     }
 
     private Set<Authority> getUserAuthorities() {
-        RoleGroup roleGroup = user.getRoleGroup();
-        if (roleGroup == null) {
-            return Collections.emptySet();
-        }
-        return roleGroup.getAuthorities();
+        return user.getUserClients().stream()
+                .map(userClient -> userClient.getRoleGroup().getAuthorities())
+                .flatMap(Set::stream)
+                .collect(toSet());
     }
 
     private boolean isSuperadmin() {

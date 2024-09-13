@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.akrasia.akimob.auth.authority.Authority;
 import br.com.akrasia.akimob.client.ClientEntity;
-import br.com.akrasia.akimob.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,14 +40,6 @@ public class RoleGroup extends ClientEntity {
         inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
     private Set<Authority> authorities;
-
-    @ManyToMany
-    @JoinTable(
-        name = "role_group_user_account",
-        joinColumns = @JoinColumn(name = "role_group_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_account_id")
-    )
-    private Set<User> users;
 
     @CreationTimestamp
     private Date createdAt;

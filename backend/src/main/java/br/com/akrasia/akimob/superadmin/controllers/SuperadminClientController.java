@@ -45,7 +45,7 @@ public class SuperadminClientController {
     public ResponseEntity<ClientCreateUserResponseDTO> createClientUser(@PathVariable Long clientId,
             @RequestBody @Valid ClientCreateUserDTO clientCreateUserDTO) {
 
-        ClientCreateUserResponseDTO user = clientService.createClientUser(clientId, clientCreateUserDTO.userId());
+        ClientCreateUserResponseDTO user = clientService.createClientUser(clientId, clientCreateUserDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
