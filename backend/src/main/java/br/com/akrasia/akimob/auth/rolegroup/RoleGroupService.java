@@ -71,7 +71,27 @@ public class RoleGroupService {
         log.info("Creating role group: {}", roleGroupCreateDTO.getName());
 
         RoleGroup roleGroup = new RoleGroup();
+        mapToRoleGroup(roleGroupCreateDTO, roleGroup);
+
+        RoleGroup savedRoleGroup = roleGroupRepoository.save(roleGroup);
+        log.info("Role group {} created id: {}", savedRoleGroup.getName(), savedRoleGroup.getId());
+        return new RoleGroupResponseDTO(savedRoleGroup);
+    }
+
+    public RoleGroupResponseDTO updateRoleGroup(Long roleGroupId, RoleGroupCreateDTO roleGroupCreateDTO) {
+        log.info("Updating role group id: {}", roleGroupId);
+
+        RoleGroup roleGroup = roleGroupRepoository.getReferenceById(roleGroupId);
+        mapToRoleGroup(roleGroupCreateDTO, roleGroup);
+
+        RoleGroup updatedRoleGroup = roleGroupRepoository.save(roleGroup);
+        log.info("Role group id {} updated", updatedRoleGroup.getId());
+        return new RoleGroupResponseDTO(updatedRoleGroup);
+    }
+
+    private void mapToRoleGroup(RoleGroupCreateDTO roleGroupCreateDTO, RoleGroup roleGroup) {
         roleGroup.setName(roleGroupCreateDTO.getName());
+        roleGroup.setDescription(roleGroupCreateDTO.getDescription());
 
         Set<Authority> authorities = new HashSet<>();
         roleGroupCreateDTO.getAuthorities().forEach(authorityId -> {
@@ -79,9 +99,6 @@ public class RoleGroupService {
         });
 
         roleGroup.setAuthorities(authorities);
-        RoleGroup savedRoleGroup = roleGroupRepoository.save(roleGroup);
-        log.info("Role group {} created id: {}", savedRoleGroup.getName(), savedRoleGroup.getId());
-        return new RoleGroupResponseDTO(savedRoleGroup);
     }
 
 }
