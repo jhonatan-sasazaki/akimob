@@ -9,7 +9,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.akrasia.akimob.auth.authority.Authority;
+import br.com.akrasia.akimob.auth.authority.AuthorityRepository;
 import br.com.akrasia.akimob.auth.authority.AuthorityService;
+import br.com.akrasia.akimob.auth.rolegroup.dtos.RoleGroupCreateDTO;
+import br.com.akrasia.akimob.auth.rolegroup.dtos.RoleGroupResponseDTO;
 import br.com.akrasia.akimob.client.Client;
 import br.com.akrasia.akimob.multiclient.ClientContext;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RoleGroupService {
 
+    private final RoleGroupRepoository roleGroupRepoository;
     private final AuthorityService authorityService;
+    private final AuthorityRepository authorityRepository;
     private final SessionFactory sessionFactory;
 
     public void createDefaultRoleGroups(Client client) {
@@ -60,6 +65,23 @@ public class RoleGroupService {
         session.getTransaction().commit();
         session.close();
         ClientContext.clear();
+    }
+
+    public RoleGroupResponseDTO createRoleGroup(RoleGroupCreateDTO roleGroupCreateDTO) {
+        log.info("Creating role group: {}", roleGroupCreateDTO.getName());
+
+        RoleGroup roleGroup = new RoleGroup();
+        roleGroup.setName(roleGroupCreateDTO.getName());
+
+        Set<Authority> authorities = new HashSet<>();
+        roleGroupCreateDTO.getAuthorities().forEach(authorityId -> {
+            authorities.add(authorityRepository.getReferenceById(authorityId));
+        });
+
+        roleGroup.setAuthorities(authorities);
+        RoleGroup savedRoleGroup = roleGroupRepoository.save(roleGroup);
+        log.info("Role group {} created id: {}", savedRoleGroup.getName(), savedRoleGroup.getId());
+        return new RoleGroupResponseDTO(savedRoleGroup);
     }
 
 }
