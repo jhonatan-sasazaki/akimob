@@ -39,7 +39,7 @@ public class RoleGroupService {
 
             roleGroup.setName(roleGroupName);
             roleGroup.setAuthorities(authorities);
-
+            roleGroups.add(roleGroup);
         });
 
         saveRoleGroup(roleGroups, client);
