@@ -46,7 +46,7 @@ public class RoleGroupService {
     }
 
     public RoleGroupResponseDTO createRoleGroup(RoleGroupCreateDTO roleGroupCreateDTO) {
-        log.info("Creating role group: {}", roleGroupCreateDTO.getName());
+        log.info("Creating role group: {}", roleGroupCreateDTO.name());
 
         RoleGroup roleGroup = new RoleGroup();
         mapToRoleGroup(roleGroupCreateDTO, roleGroup);
@@ -68,11 +68,11 @@ public class RoleGroupService {
     }
 
     private void mapToRoleGroup(RoleGroupCreateDTO roleGroupCreateDTO, RoleGroup roleGroup) {
-        roleGroup.setName(roleGroupCreateDTO.getName());
-        roleGroup.setDescription(roleGroupCreateDTO.getDescription());
+        roleGroup.setName(roleGroupCreateDTO.name());
+        roleGroup.setDescription(roleGroupCreateDTO.description());
 
         Set<Authority> authorities = new HashSet<>();
-        roleGroupCreateDTO.getAuthorities().forEach(authorityId -> {
+        roleGroupCreateDTO.authorities().forEach(authorityId -> {
             authorities.add(authorityRepository.getReferenceById(authorityId));
         });
 
