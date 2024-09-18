@@ -1,5 +1,6 @@
 package br.com.akrasia.akimob.core.superadmin.controllers;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -65,9 +66,9 @@ public class SuperadminUserControllerTests {
                 .andExpect(result -> {
                     String response = result.getResponse().getContentAsString();
                     UserResponseDTO user = objectMapper.readValue(response, UserResponseDTO.class);
-                    assert user.id().equals(userResponseDTO.id());
-                    assert user.username().equals(userResponseDTO.username());
-                    assert user.email().equals(userResponseDTO.email());
+                    assertEquals(user.id(), userResponseDTO.id());
+                    assertEquals(user.username(), userResponseDTO.username());
+                    assertEquals(user.email(), userResponseDTO.email());
                 });
     }
 
@@ -232,9 +233,9 @@ public class SuperadminUserControllerTests {
                 .andExpect(result -> {
                     String response = result.getResponse().getContentAsString();
                     UserResponseDTO user = objectMapper.readValue(response, UserResponseDTO.class);
-                    assert user.id().equals(userResponseDTO.id());
-                    assert user.username().equals(userResponseDTO.username());
-                    assert user.email().equals(userResponseDTO.email());
+                    assertEquals(user.id(), userResponseDTO.id());
+                    assertEquals(user.username(), userResponseDTO.username());
+                    assertEquals(user.email(), userResponseDTO.email());
                 });
     }
 

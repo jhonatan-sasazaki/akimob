@@ -1,5 +1,6 @@
 package br.com.akrasia.akimob.core.superadmin.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -69,8 +70,8 @@ public class SuperadminClientControllerTests {
                 .andExpect(result -> {
                     String content = result.getResponse().getContentAsString();
                     ClientResponseDTO responseDTO = objectMapper.readValue(content, ClientResponseDTO.class);
-                    assert responseDTO.id().equals(clientResponseDTO.id());
-                    assert responseDTO.name().equals(clientResponseDTO.name());
+                    assertEquals(clientResponseDTO.id(), responseDTO.id());
+                    assertEquals(clientResponseDTO.name(), responseDTO.name());
                 });
     }
 
@@ -232,8 +233,8 @@ public class SuperadminClientControllerTests {
                     String content = result.getResponse().getContentAsString();
                     ClientCreateUserResponseDTO responseDTO = objectMapper.readValue(content,
                             ClientCreateUserResponseDTO.class);
-                    assert responseDTO.clientId().equals(clientCreateUserResponseDTO.clientId());
-                    assert responseDTO.userId().equals(clientCreateUserResponseDTO.userId());
+                    assertEquals(responseDTO.clientId(), clientCreateUserResponseDTO.clientId());
+                    assertEquals(responseDTO.userId(), clientCreateUserResponseDTO.userId());
                 });
 
     }
