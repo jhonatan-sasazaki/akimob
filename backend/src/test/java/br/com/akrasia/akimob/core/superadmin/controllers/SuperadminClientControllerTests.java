@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.superadmin.controllers;
+package br.com.akrasia.akimob.core.superadmin.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

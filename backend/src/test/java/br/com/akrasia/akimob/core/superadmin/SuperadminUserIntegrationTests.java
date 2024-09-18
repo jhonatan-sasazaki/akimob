@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.superadmin;
+package br.com.akrasia.akimob.core.superadmin;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,10 +10,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.akrasia.akimob.IntegrationTests;
-import br.com.akrasia.akimob.auth.dtos.AuthenticationDTO;
-import br.com.akrasia.akimob.auth.services.AuthenticationService;
-import br.com.akrasia.akimob.user.UserService;
-import br.com.akrasia.akimob.user.dtos.UserCreateDTO;
+import br.com.akrasia.akimob.core.authentication.LoginAuthenticationService;
+import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
+import br.com.akrasia.akimob.core.user.UserService;
+import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,7 +25,7 @@ public class SuperadminUserIntegrationTests extends IntegrationTests {
     private WebTestClient webTestClient;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private LoginAuthenticationService loginAuthenticationService;
 
     private static ObjectMapper objectMapper;
 
@@ -42,7 +42,7 @@ public class SuperadminUserIntegrationTests extends IntegrationTests {
 
     @Test
     public void createUser_Superadmin() throws Exception {
-        String superadminToken = authenticationService.authenticate(new AuthenticationDTO("superadmin", "password"));
+        String superadminToken = loginAuthenticationService.authenticate(new AuthenticationDTO("superadmin", "password"));
         UserCreateDTO userCreateDTO = new UserCreateDTO("newuser", "password", "newuser@email.com");
 
         webTestClient.post().uri("/superadmin/users")
