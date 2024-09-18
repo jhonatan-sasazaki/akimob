@@ -1,19 +1,24 @@
 package br.com.akrasia.akimob.core.superadmin;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.akrasia.akimob.IntegrationTests;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.core.authentication.LoginAuthenticationService;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
+import br.com.akrasia.akimob.core.client.ClientRepository;
+import br.com.akrasia.akimob.core.client.ClientService;
 import br.com.akrasia.akimob.core.user.UserService;
 import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 
@@ -25,9 +30,13 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
     private WebTestClient webTestClient;
 
     @Autowired
-    private LoginAuthenticationService loginAuthenticationService;
+    private ClientService clientService;
 
-    private static ObjectMapper objectMapper;
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private LoginAuthenticationService loginAuthenticationService;
 
     @BeforeAll
     static void setUp(@Autowired UserService userService) {
@@ -35,50 +44,98 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         userService.createUser(userCreateDTO);
         UserCreateDTO superadminCreateDTO = new UserCreateDTO("superadmin", "password", "superadmin@email.com");
         userService.createSuperadmin(superadminCreateDTO);
-
-        objectMapper = new ObjectMapper();
     }
 
-    
+    @BeforeEach
+    void clearClient() {
+        clientRepository.deleteAll();
+        clientRepository.flush();
+    }
 
-    // @Test
-    // public void createClient_Unauthenticated() throws Exception {
-    //     ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client");
+    @Test
+    public void createClient_Unauthenticated() throws Exception {
+        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
-    //     webTestClient.post().uri("/superadmin/clients")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .bodyValue(objectMapper.writeValueAsString(clientCreateDTO))
-    //             .exchange()
-    //             .expectStatus().isUnauthorized();
-    // }
+        webTestClient.post().uri("/superadmin/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(clientCreateDTO)
+                .exchange()
+                .expectStatus().isUnauthorized();
 
-    // @Test
-    // public void createClient_AuthenticatedButNotAuthorized() throws Exception {
-    //     String userToken = authenticationService.authenticate(new AuthenticationDTO("user", "password"));
-    //     ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client");
+        assertTrue(clientRepository.findAll().isEmpty());
+    }
 
-    //     webTestClient.post().uri("/superadmin/clients")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .headers(http -> http.setBearerAuth(userToken))
-    //             .bodyValue(objectMapper.writeValueAsString(clientCreateDTO))
-    //             .exchange()
-    //             .expectStatus().isForbidden();
-    // }
+    @Test
+    public void createClient_AuthenticatedButNotAuthorized() throws Exception {
+        String userToken = loginAuthenticationService.authenticate(new AuthenticationDTO("user", "password"));
+        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
-    // @Test
-    // public void createClient_Superadmin() throws Exception {
-    //     String superadminToken = authenticationService.authenticate(new AuthenticationDTO("superadmin", "password"));
-    //     ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client");
+        webTestClient.post().uri("/superadmin/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(http -> http.setBearerAuth(userToken))
+                .bodyValue(clientCreateDTO)
+                .exchange()
+                .expectStatus().isForbidden();
 
-    //     webTestClient.post().uri("/superadmin/clients")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .headers(http -> http.setBearerAuth(superadminToken))
-    //             .bodyValue(objectMapper.writeValueAsString(clientCreateDTO))
-    //             .exchange()
-    //             .expectStatus().isCreated()
-    //             .expectBody()
-    //             .jsonPath("$.id").isNotEmpty()
-    //             .jsonPath("$.name").isEqualTo(clientCreateDTO.name());
-    // }
+        assertTrue(clientRepository.findAll().isEmpty());
+    }
+
+    @Test
+    public void createClient_Superadmin() throws Exception {
+        String superadminToken = loginAuthenticationService
+                .authenticate(new AuthenticationDTO("superadmin", "password"));
+        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+
+        webTestClient.post().uri("/superadmin/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(http -> http.setBearerAuth(superadminToken))
+                .bodyValue(clientCreateDTO)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .jsonPath("$.id").isNotEmpty()
+                .jsonPath("$.name").isEqualTo(clientCreateDTO.name());
+
+        assertEquals(1, clientRepository.findAll().size());
+    }
+
+    @Test
+    public void createClient_DuplicateName() throws Exception {
+        String superadminToken = loginAuthenticationService
+                .authenticate(new AuthenticationDTO("superadmin", "password"));
+        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+        ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client", "newclient2");
+
+        clientService.createClient(clientCreateDTO);
+
+        webTestClient.post().uri("/superadmin/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(http -> http.setBearerAuth(superadminToken))
+                .bodyValue(clientCreateDTO2)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
+
+        assertEquals(1, clientRepository.findAll().size());
+
+    }
+
+    @Test
+    public void createClient_DuplicateSchemaName() throws Exception {
+        String superadminToken = loginAuthenticationService
+                .authenticate(new AuthenticationDTO("superadmin", "password"));
+        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+        ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client 2", "newclient");
+
+        clientService.createClient(clientCreateDTO);
+
+        webTestClient.post().uri("/superadmin/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(http -> http.setBearerAuth(superadminToken))
+                .bodyValue(clientCreateDTO2)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
+
+        assertEquals(1, clientRepository.findAll().size());
+    }
 
 }
