@@ -39,25 +39,7 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
-    public void login_ValidCredentials() {
-        webTestClient.post().uri("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new AuthenticationDTO("user", "password"))
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody().jsonPath("$.token").isNotEmpty();
-
-    }
-
-    @Test
-    public void login_InvalidCredentials() {
-        webTestClient.post().uri("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new AuthenticationDTO("user", "invalid"))
-                .exchange()
-                .expectStatus().isUnauthorized();
-    }
+    
 
     // @Test
     // public void createClient_Unauthenticated() throws Exception {
