@@ -58,7 +58,7 @@ public class SuperadminClientControllerTests {
     public void createClient_ValidDTO() throws Exception {
 
         clientCreateDTO = new ClientCreateDTO("Test Client", "testclient");
-        clientResponseDTO = new ClientResponseDTO(1L, clientCreateDTO.name());
+        clientResponseDTO = new ClientResponseDTO(1L, clientCreateDTO.name(), clientCreateDTO.schemaName());
 
         when(clientService.createClient(clientCreateDTO)).thenReturn(clientResponseDTO);
 
@@ -72,6 +72,7 @@ public class SuperadminClientControllerTests {
                     ClientResponseDTO responseDTO = objectMapper.readValue(content, ClientResponseDTO.class);
                     assertEquals(clientResponseDTO.id(), responseDTO.id());
                     assertEquals(clientResponseDTO.name(), responseDTO.name());
+                    assertEquals(clientResponseDTO.schemaName(), responseDTO.schemaName());
                 });
     }
 
@@ -169,8 +170,8 @@ public class SuperadminClientControllerTests {
     @WithMockUser
     public void listClients() throws Exception {
 
-        List<ClientResponseDTO> clients = List.of(new ClientResponseDTO(1L, "Test Client 1"),
-                new ClientResponseDTO(2L, "Test Client 2"));
+        List<ClientResponseDTO> clients = List.of(new ClientResponseDTO(1L, "Test Client 1", "testclient1"),
+                new ClientResponseDTO(2L, "Test Client 2", "testclient2"));
 
         Page<ClientResponseDTO> page = new PageImpl<>(clients);
         PagedModel<ClientResponseDTO> pagedModel = new PagedModel<>(page);
@@ -181,10 +182,12 @@ public class SuperadminClientControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content").isNotEmpty())
-                .andExpect(jsonPath("$.content[0].id").value(1))
-                .andExpect(jsonPath("$.content[0].name").value("Test Client 1"))
-                .andExpect(jsonPath("$.content[1].id").value(2))
-                .andExpect(jsonPath("$.content[1].name").value("Test Client 2"))
+                .andExpect(jsonPath("$.content[0].id").value(clients.get(0).id()))
+                .andExpect(jsonPath("$.content[0].name").value(clients.get(0).name()))
+                .andExpect(jsonPath("$.content[0].schemaName").value(clients.get(0).schemaName()))
+                .andExpect(jsonPath("$.content[1].id").value(clients.get(1).id()))
+                .andExpect(jsonPath("$.content[1].name").value(clients.get(1).name()))
+                .andExpect(jsonPath("$.content[1].schemaName").value(clients.get(1).schemaName()))
                 .andExpect(jsonPath("$.page").isMap())
                 .andExpect(jsonPath("$.page.size").value(2))
                 .andExpect(jsonPath("$.page.totalElements").value(2))
