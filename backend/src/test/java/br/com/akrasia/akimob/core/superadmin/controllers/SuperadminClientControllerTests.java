@@ -35,7 +35,6 @@ import br.com.akrasia.akimob.app.clientuser.dtos.ClientResponseDTO;
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
 import br.com.akrasia.akimob.core.client.ClientService;
 import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
-import br.com.akrasia.akimob.core.superadmin.controllers.SuperadminClientController;
 
 @WebMvcTest(controllers = SuperadminClientController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
         TokenAuthenticationFilter.class, ClientResolverFilter.class }))

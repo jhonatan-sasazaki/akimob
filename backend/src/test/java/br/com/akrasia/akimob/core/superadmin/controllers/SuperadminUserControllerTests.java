@@ -28,7 +28,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
 import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
-import br.com.akrasia.akimob.core.superadmin.controllers.SuperadminUserController;
 import br.com.akrasia.akimob.core.user.UserService;
 import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 import br.com.akrasia.akimob.core.user.dtos.UserResponseDTO;
