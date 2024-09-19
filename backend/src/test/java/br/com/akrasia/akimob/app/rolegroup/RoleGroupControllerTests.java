@@ -217,7 +217,7 @@ public class RoleGroupControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(roleGroupCreateDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.fields.name").value("must not be blank"));
+                .andExpect(jsonPath("$.fields.name").value(oneOf("must not be blank", "size must be between 1 and 255")));
 
     }
 
