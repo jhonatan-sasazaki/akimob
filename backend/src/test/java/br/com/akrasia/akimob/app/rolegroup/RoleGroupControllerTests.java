@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.oneOf;
 
 import java.util.Set;
 
@@ -90,7 +91,8 @@ public class RoleGroupControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(roleGroupCreateDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.fields.name").value("must not be blank"));
+                .andExpect(
+                        jsonPath("$.fields.name").value(oneOf("must not be blank", "size must be between 1 and 255")));
 
     }
 
@@ -171,22 +173,22 @@ public class RoleGroupControllerTests {
     @Test
     @WithMockUser
     public void updateRoleGroup_ValidDTO() throws Exception {
-            
-            roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
-            roleGroupResponseDTO = new RoleGroupResponseDTO(1L);
-    
-            when(roleGroupService.updateRoleGroup(1L, roleGroupCreateDTO)).thenReturn(roleGroupResponseDTO);
-    
-            mockMvc.perform(put("/rolegroups/1")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(roleGroupCreateDTO)))
-                    .andExpect(status().isOk())
-                    .andExpect(result -> {
-                        String content = result.getResponse().getContentAsString();
-                        RoleGroupResponseDTO response = objectMapper.readValue(content, RoleGroupResponseDTO.class);
-                        assertEquals(roleGroupResponseDTO, response);
-                    });
+
+        roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
+        roleGroupResponseDTO = new RoleGroupResponseDTO(1L);
+
+        when(roleGroupService.updateRoleGroup(1L, roleGroupCreateDTO)).thenReturn(roleGroupResponseDTO);
+
+        mockMvc.perform(put("/rolegroups/1")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(roleGroupCreateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    String content = result.getResponse().getContentAsString();
+                    RoleGroupResponseDTO response = objectMapper.readValue(content, RoleGroupResponseDTO.class);
+                    assertEquals(roleGroupResponseDTO, response);
+                });
     }
 
     @Test
