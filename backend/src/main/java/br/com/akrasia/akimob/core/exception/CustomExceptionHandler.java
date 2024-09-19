@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,27 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<ProblemDetail> handleSQLException(SQLException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-        problemDetail.setTitle("SQL Exception");
-        problemDetail.setDetail(ex.getMessage());
+        ProblemDetail problemDetail;
+        String state = ex.getSQLState();
+
+        switch (state) {
+            case SQLState.FOREIGN_KEY_VIOLATION:
+                problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+                problemDetail.setTitle("Resource Not Found");
+                break;
+
+            case SQLState.UNIQUE_VIOLATION:
+                problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+                problemDetail.setTitle("Duplicate key");
+                break;
+
+            default:
+                problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+                problemDetail.setTitle("SQL Exception");
+                break;
+        }
+
+        problemDetail.setDetail(StringUtils.substringAfter(ex.getMessage(), "Detail: "));
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
     }
