@@ -1,6 +1,7 @@
 package br.com.akrasia.akimob.core.exception;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -9,9 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -65,6 +69,28 @@ public class CustomExceptionHandler {
         problemDetail.setDetail(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ProblemDetail> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Invalid JSON");
+        String errorDetails = ex.getMessage();
+
+        // https://stackoverflow.com/a/66380120
+        if (ex.getCause() instanceof InvalidFormatException) {
+            InvalidFormatException ifx = (InvalidFormatException) ex.getCause();
+            if (ifx.getTargetType() != null && ifx.getTargetType().isEnum()) {
+                errorDetails = String.format(
+                        "Invalid enum value: '%s' for the field: '%s'. The value must be one of: %s.",
+                        ifx.getValue(), ifx.getPath().get(ifx.getPath().size() - 1).getFieldName(),
+                        Arrays.toString(ifx.getTargetType().getEnumConstants()));
+            }
+        }
+
+        problemDetail.setDetail(errorDetails);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
 
 }
