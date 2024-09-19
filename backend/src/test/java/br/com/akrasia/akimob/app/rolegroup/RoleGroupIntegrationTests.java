@@ -72,9 +72,9 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
     private static AuthenticationDTO user2AuthenticationDTO;
 
     @BeforeAll
-    static void setUp(@Autowired ClientService clientService, @Autowired UserService userService,
-            @Autowired AuthorityService authorityService,
-            @Autowired RoleGroupService roleGroupService,
+    static void setUp(
+            @Autowired ClientService clientService,
+            @Autowired UserService userService,
             @Value("${akimob.multiclient.http.header-name}") String clientIdHeaderName) {
 
         headerName = clientIdHeaderName;
