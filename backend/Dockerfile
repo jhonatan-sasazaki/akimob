@@ -23,6 +23,8 @@ WORKDIR /app
 # Copy the built JAR file from the previous stage
 COPY --from=build /app/target/*.jar akimob.jar
 
+# CORS
+ENV CORS_ALLOWED_ORIGINS=http://localhost:4200
 # Database connection
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
@@ -32,9 +34,9 @@ ENV DB_PASSWORD=your_password
 # JWT
 ENV JWT_SECRET=your-very-secure-secret
 # Super admin user
-ENV SUPER_ADMIN_USERNAME=admin
-ENV SUPER_ADMIN_PASSWORD=admin
-ENV SUPER_ADMIN_EMAIL=admin@email.com
+ENV SUPER_ADMIN_USERNAME=superadmin
+ENV SUPER_ADMIN_PASSWORD=superadmin
+ENV SUPER_ADMIN_EMAIL=superadmin@email.com
 # Logging
 ENV LOG_MAX_HISTORY=30
 ENV LOG_TOTAL_SIZE_CAP=10GB
