@@ -1,4 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@use "sass:map";
+@use "@angular/material" as mat;
+@use "./themes/default-theme" as theme;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@include mat.core();
+
+:root {
+  @include mat.system-level-colors(theme.$light-theme);
+  @include mat.system-level-typography(theme.$light-theme);
+  @include mat.core-theme(theme.$light-theme);
+  @include mat.card-theme(theme.$light-theme);
+  @include mat.form-field-theme(theme.$light-theme);
+  @include mat.input-theme(theme.$light-theme);
+  @include mat.button-theme(theme.$light-theme);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
