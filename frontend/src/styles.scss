@@ -12,6 +12,7 @@
   @include mat.form-field-theme(theme.$light-theme);
   @include mat.input-theme(theme.$light-theme);
   @include mat.button-theme(theme.$light-theme);
+  @include mat.snack-bar-theme(theme.$light-theme);
 }
 
 html,
