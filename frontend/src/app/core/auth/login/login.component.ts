@@ -12,6 +12,9 @@ import { merge } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 
+const PASSWORD_REQUIRED_MESSAGE = $localize`:@@login.password.required:Password is required`;
+const PASSWORD_MIN_LENGTH_MESSAGE = $localize`:@@login.password.minLength:Password must be at least 8 characters long`;
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -33,8 +36,7 @@ export class LoginComponent {
     username: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
-
-  passwordErrorMessage = signal('Password is required');
+  passwordErrorMessage = signal(PASSWORD_REQUIRED_MESSAGE);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,12 +61,10 @@ export class LoginComponent {
 
   updatePasswordErrorMessage() {
     if (this.password.invalid) {
-      this.passwordErrorMessage.set('Password is required');
+      this.passwordErrorMessage.set(PASSWORD_REQUIRED_MESSAGE);
     }
     if (this.password.hasError('minlength')) {
-      this.passwordErrorMessage.set(
-        'Password must be at least 8 characters long'
-      );
+      this.passwordErrorMessage.set(PASSWORD_MIN_LENGTH_MESSAGE);
     }
   }
 

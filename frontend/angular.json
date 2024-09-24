@@ -10,6 +10,14 @@
   "projects": {
     "akimob": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "pt": {
+            "translation": "src/locale/messages.pt.xlf"
+          }
+        }
+      },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
@@ -18,21 +26,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "localize": true,
             "outputPath": "dist/akimob",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -61,7 +62,8 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
-            }
+            },
+            "pt": { "localize": ["pt"] }
           },
           "defaultConfiguration": "production"
         },
@@ -73,6 +75,9 @@
             },
             "development": {
               "buildTarget": "akimob:build:development"
+            },
+            "pt": {
+              "buildTarget": "akimob:build:development,pt"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +85,9 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "akimob:build"
+            "buildTarget": "akimob:build",
+            "outputPath": "src/locale",
+            "format": "xlf2"
           }
         },
         "test": {
@@ -92,13 +99,8 @@
               "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }

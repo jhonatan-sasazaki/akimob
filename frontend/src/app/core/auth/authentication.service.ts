@@ -10,6 +10,9 @@ import { TokenService } from './token/token.service';
 import { Authentication } from './models/authentication.model';
 import { AuthenticationResponse } from './models/authentication-response.model';
 
+const UNAUTHORIZED_MESSAGE = $localize`:@@authentication.unauthorized:Invalid username or password.`;
+const GENERIC_ERROR_MESSAGE = $localize`:@@authentication.error:Something bad happened. Please try again later.`;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -43,10 +46,9 @@ export class AuthenticationService {
   private handleError(error: HttpErrorResponse): Observable<Error> {
     if (error.status === HttpStatusCode.Unauthorized) {
       console.log('Unauthorized');
-      return throwError(() => new Error('Invalid username or password'));
+
+      return throwError(() => new Error(UNAUTHORIZED_MESSAGE));
     }
-    return throwError(
-      () => new Error('Something bad happened; please try again later.')
-    );
+    return throwError(() => new Error(GENERIC_ERROR_MESSAGE));
   }
 }

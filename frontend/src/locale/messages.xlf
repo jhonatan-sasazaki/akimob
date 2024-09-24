@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US">
+  <file id="ngi18n" original="ng.template">
+    <unit id="authentication.unauthorized">
+      <notes>
+        <note category="location">src/app/core/auth/authentication.service.ts:13</note>
+      </notes>
+      <segment>
+        <source>Invalid username or password.</source>
+      </segment>
+    </unit>
+    <unit id="authentication.error">
+      <notes>
+        <note category="location">src/app/core/auth/authentication.service.ts:14</note>
+      </notes>
+      <segment>
+        <source>Something bad happened. Please try again later.</source>
+      </segment>
+    </unit>
+    <unit id="login-title">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.html:5,6</note>
+      </notes>
+      <segment>
+        <source>Login</source>
+      </segment>
+    </unit>
+    <unit id="login.username">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.html:12,13</note>
+      </notes>
+      <segment>
+        <source>Username</source>
+      </segment>
+    </unit>
+    <unit id="login.username.required">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.html:14,15</note>
+      </notes>
+      <segment>
+        <source>Username is required</source>
+      </segment>
+    </unit>
+    <unit id="login.password">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.html:18,19</note>
+      </notes>
+      <segment>
+        <source>Password</source>
+      </segment>
+    </unit>
+    <unit id="login.submit.button">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.html:25,28</note>
+      </notes>
+      <segment>
+        <source>Login</source>
+      </segment>
+    </unit>
+    <unit id="login.password.required">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.ts:15</note>
+      </notes>
+      <segment>
+        <source>Password is required</source>
+      </segment>
+    </unit>
+    <unit id="login.password.minLength">
+      <notes>
+        <note category="location">src/app/core/auth/login/login.component.ts:16</note>
+      </notes>
+      <segment>
+        <source>Password must be at least 8 characters long</source>
+      </segment>
+    </unit>
+  </file>
+</xliff>

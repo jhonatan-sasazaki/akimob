@@ -2,27 +2,27 @@
     <mat-card>
 
         <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
+            <mat-card-title i18n="@@login-title">Login</mat-card-title>
         </mat-card-header>
         
         <mat-card-content>
             <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
                 <mat-form-field>
-                    <mat-label>Username</mat-label>
-                    <input matInput placeholder="Username" formControlName="username">
-                    <mat-error>Username is required</mat-error>
+                    <mat-label i18n="@@login.username">Username</mat-label>
+                    <input matInput i18n-placeholder="@@login.username" placeholder="Username" formControlName="username">
+                    <mat-error i18n="@@login.username.required">Username is required</mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Password</mat-label>
+                    <mat-label i18n="@@login.password">Password</mat-label>
                     <input matInput type="password" name="password" formControlName="password">
                     @if (password.invalid) {
                     <mat-error>{{ passwordErrorMessage() }}</mat-error>
                     }
                 </mat-form-field>
 
-                <button mat-flat-button type="submit">Login</button>
+                <button mat-flat-button i18n="@@login.submit.button" type="submit">Login</button>
 
             </form>
         </mat-card-content>
