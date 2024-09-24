@@ -22,7 +22,7 @@
         <note category="location">src/app/core/auth/login/login.component.html:5,6</note>
       </notes>
       <segment>
-        <source>Login</source>
+        <source>Sign in</source>
       </segment>
     </unit>
     <unit id="login.username">
@@ -54,7 +54,7 @@
         <note category="location">src/app/core/auth/login/login.component.html:25,28</note>
       </notes>
       <segment>
-        <source>Login</source>
+        <source>Sign in</source>
       </segment>
     </unit>
     <unit id="login.password.required">
