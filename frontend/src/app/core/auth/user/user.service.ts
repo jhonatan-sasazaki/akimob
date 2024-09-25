@@ -22,11 +22,8 @@ export class UserService {
     const authentication: Authentication = { username, password };
     return this.authenticationService.authenticate(authentication).pipe(
       tap((response) => {
-        this.user = {
-          username: response.token.subject,
-          token: response.token,
-        };
-        this.tokenService.setToken(this.user.token);
+        this.tokenService.setToken(response.token);
+        this.autoLogin();
       })
     );
   }
