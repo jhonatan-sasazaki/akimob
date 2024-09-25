@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationResponseDTO;
+import br.com.akrasia.akimob.core.authentication.token.Token;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class AuthenticationContoller {
     public ResponseEntity<AuthenticationResponseDTO> login(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         log.info("Login request received for user: {}", authenticationDTO.username());
         
-        String token = loginAuthenticationService.authenticate(authenticationDTO);
+        Token token = loginAuthenticationService.authenticate(authenticationDTO);
         return ResponseEntity.ok(new AuthenticationResponseDTO(token));
     }
     

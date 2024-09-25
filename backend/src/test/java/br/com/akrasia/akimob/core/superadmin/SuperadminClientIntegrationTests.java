@@ -34,129 +34,131 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SuperadminClientIntegrationTests extends IntegrationTests {
 
-    @Autowired
-    @Qualifier("client")
-    private DataSource clientDataSource;
+        @Autowired
+        @Qualifier("client")
+        private DataSource clientDataSource;
 
-    @Autowired
-    private WebTestClient webTestClient;
+        @Autowired
+        private WebTestClient webTestClient;
 
-    @Autowired
-    private ClientService clientService;
+        @Autowired
+        private ClientService clientService;
 
-    @Autowired
-    private ClientRepository clientRepository;
+        @Autowired
+        private ClientRepository clientRepository;
 
-    @Autowired
-    private LoginAuthenticationService loginAuthenticationService;
+        @Autowired
+        private LoginAuthenticationService loginAuthenticationService;
 
-    @BeforeAll
-    static void setUp(@Autowired UserService userService) {
-        UserCreateDTO userCreateDTO = new UserCreateDTO("user", "password", "user@email.com");
-        userService.createUser(userCreateDTO);
-        UserCreateDTO superadminCreateDTO = new UserCreateDTO("superadmin", "password", "superadmin@email.com");
-        userService.createSuperadmin(superadminCreateDTO);
-    }
+        @BeforeAll
+        static void setUp(@Autowired UserService userService) {
+                UserCreateDTO userCreateDTO = new UserCreateDTO("user", "password", "user@email.com");
+                userService.createUser(userCreateDTO);
+                UserCreateDTO superadminCreateDTO = new UserCreateDTO("superadmin", "password", "superadmin@email.com");
+                userService.createSuperadmin(superadminCreateDTO);
+        }
 
-    @BeforeEach
-    public void clearClient() throws SQLException {
-        log.info("Clearing client table");
+        @BeforeEach
+        public void clearClient() throws SQLException {
+                log.info("Clearing client table");
 
-        clientRepository.deleteAll();
-        clientRepository.flush();
+                clientRepository.deleteAll();
+                clientRepository.flush();
 
-        log.info("Clearing client database");
+                log.info("Clearing client database");
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(clientDataSource);
-        String sql = "SELECT schema_name FROM information_schema.schemata WHERE (schema_name NOT LIKE 'pg_%') and (schema_name != 'information_schema');";
-        jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("schema_name"))
-                .forEach(schemaName -> jdbcTemplate.execute("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE"));
-    }
+                JdbcTemplate jdbcTemplate = new JdbcTemplate(clientDataSource);
+                String sql = "SELECT schema_name FROM information_schema.schemata WHERE (schema_name NOT LIKE 'pg_%') and (schema_name != 'information_schema');";
+                jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("schema_name"))
+                                .forEach(schemaName -> jdbcTemplate
+                                                .execute("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE"));
+        }
 
-    @Test
-    public void createClient_Unauthenticated() throws Exception {
-        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+        @Test
+        public void createClient_Unauthenticated() throws Exception {
+                ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
-        webTestClient.post().uri("/superadmin/clients")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(clientCreateDTO)
-                .exchange()
-                .expectStatus().isUnauthorized();
+                webTestClient.post().uri("/superadmin/clients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(clientCreateDTO)
+                                .exchange()
+                                .expectStatus().isUnauthorized();
 
-        assertTrue(clientRepository.findAll().isEmpty());
-    }
+                assertTrue(clientRepository.findAll().isEmpty());
+        }
 
-    @Test
-    public void createClient_AuthenticatedButNotAuthorized() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(new AuthenticationDTO("user", "password"));
-        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+        @Test
+        public void createClient_AuthenticatedButNotAuthorized() throws Exception {
+                String userToken = loginAuthenticationService.authenticate(new AuthenticationDTO("user", "password"))
+                                .value();
+                ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
-        webTestClient.post().uri("/superadmin/clients")
-                .contentType(MediaType.APPLICATION_JSON)
-                .headers(http -> http.setBearerAuth(userToken))
-                .bodyValue(clientCreateDTO)
-                .exchange()
-                .expectStatus().isForbidden();
+                webTestClient.post().uri("/superadmin/clients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(http -> http.setBearerAuth(userToken))
+                                .bodyValue(clientCreateDTO)
+                                .exchange()
+                                .expectStatus().isForbidden();
 
-        assertTrue(clientRepository.findAll().isEmpty());
-    }
+                assertTrue(clientRepository.findAll().isEmpty());
+        }
 
-    @Test
-    public void createClient_Superadmin() throws Exception {
-        String superadminToken = loginAuthenticationService
-                .authenticate(new AuthenticationDTO("superadmin", "password"));
-        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+        @Test
+        public void createClient_Superadmin() throws Exception {
+                String superadminToken = loginAuthenticationService
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
-        webTestClient.post().uri("/superadmin/clients")
-                .contentType(MediaType.APPLICATION_JSON)
-                .headers(http -> http.setBearerAuth(superadminToken))
-                .bodyValue(clientCreateDTO)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody()
-                .jsonPath("$.id").isNotEmpty()
-                .jsonPath("$.name").isEqualTo(clientCreateDTO.name());
+                webTestClient.post().uri("/superadmin/clients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(http -> http.setBearerAuth(superadminToken))
+                                .bodyValue(clientCreateDTO)
+                                .exchange()
+                                .expectStatus().isCreated()
+                                .expectBody()
+                                .jsonPath("$.id").isNotEmpty()
+                                .jsonPath("$.name").isEqualTo(clientCreateDTO.name());
 
-        assertEquals(1, clientRepository.findAll().size());
-    }
+                assertEquals(1, clientRepository.findAll().size());
+        }
 
-    @Test
-    public void createClient_DuplicateName() throws Exception {
-        String superadminToken = loginAuthenticationService
-                .authenticate(new AuthenticationDTO("superadmin", "password"));
-        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
-        ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client", "newclient2");
+        @Test
+        public void createClient_DuplicateName() throws Exception {
+                String superadminToken = loginAuthenticationService
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+                ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client", "newclient2");
 
-        clientService.createClient(clientCreateDTO);
+                clientService.createClient(clientCreateDTO);
 
-        webTestClient.post().uri("/superadmin/clients")
-                .contentType(MediaType.APPLICATION_JSON)
-                .headers(http -> http.setBearerAuth(superadminToken))
-                .bodyValue(clientCreateDTO2)
-                .exchange()
-                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
+                webTestClient.post().uri("/superadmin/clients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(http -> http.setBearerAuth(superadminToken))
+                                .bodyValue(clientCreateDTO2)
+                                .exchange()
+                                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
 
-        assertEquals(1, clientRepository.findAll().size());
+                assertEquals(1, clientRepository.findAll().size());
 
-    }
+        }
 
-    @Test
-    public void createClient_DuplicateSchemaName() throws Exception {
-        String superadminToken = loginAuthenticationService
-                .authenticate(new AuthenticationDTO("superadmin", "password"));
-        ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
-        ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client 2", "newclient");
+        @Test
+        public void createClient_DuplicateSchemaName() throws Exception {
+                String superadminToken = loginAuthenticationService
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
+                ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client 2", "newclient");
 
-        clientService.createClient(clientCreateDTO);
+                clientService.createClient(clientCreateDTO);
 
-        webTestClient.post().uri("/superadmin/clients")
-                .contentType(MediaType.APPLICATION_JSON)
-                .headers(http -> http.setBearerAuth(superadminToken))
-                .bodyValue(clientCreateDTO2)
-                .exchange()
-                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
+                webTestClient.post().uri("/superadmin/clients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(http -> http.setBearerAuth(superadminToken))
+                                .bodyValue(clientCreateDTO2)
+                                .exchange()
+                                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
 
-        assertEquals(1, clientRepository.findAll().size());
-    }
+                assertEquals(1, clientRepository.findAll().size());
+        }
 
 }

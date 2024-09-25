@@ -42,7 +42,8 @@ public class SuperadminUserIntegrationTests extends IntegrationTests {
 
     @Test
     public void createUser_Superadmin() throws Exception {
-        String superadminToken = loginAuthenticationService.authenticate(new AuthenticationDTO("superadmin", "password"));
+        String superadminToken = loginAuthenticationService
+                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
         UserCreateDTO userCreateDTO = new UserCreateDTO("newuser", "password", "newuser@email.com");
 
         webTestClient.post().uri("/superadmin/users")

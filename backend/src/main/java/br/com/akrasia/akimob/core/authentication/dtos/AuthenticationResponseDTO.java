@@ -1,4 +1,6 @@
 package br.com.akrasia.akimob.core.authentication.dtos;
 
-public record AuthenticationResponseDTO(String token) {
+import br.com.akrasia.akimob.core.authentication.token.Token;
+
+public record AuthenticationResponseDTO(Token token) {
 }

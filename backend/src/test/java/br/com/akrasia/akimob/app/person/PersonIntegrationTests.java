@@ -116,7 +116,7 @@ public class PersonIntegrationTests extends IntegrationTests {
 
     @Test
     public void createPerson_AuthenticatedButNotAuthorized() {
-        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO);
+        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO).value();
         PersonCreateDTO personCreateDTO = getPersonCreateDTO("Person 1");
 
         webTestClient.post().uri("/people")
@@ -136,7 +136,7 @@ public class PersonIntegrationTests extends IntegrationTests {
 
     @Test
     public void createPerson_AuthenticatedAndAuthorized() {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO);
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
         PersonCreateDTO personCreateDTO = getPersonCreateDTO("Person 1");
 
         webTestClient.post().uri("/people")
@@ -158,7 +158,7 @@ public class PersonIntegrationTests extends IntegrationTests {
 
     @Test
     public void createPerson_InvalidType() {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO);
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
 
         webTestClient.post().uri("/people")
                 .contentType(MediaType.APPLICATION_JSON)

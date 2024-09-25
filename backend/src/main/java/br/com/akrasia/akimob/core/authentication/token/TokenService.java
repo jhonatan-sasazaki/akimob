@@ -25,20 +25,21 @@ public class TokenService {
         algorithm = Algorithm.HMAC256(secret);
     }
 
-    public String createToken(UserDetails user) {
+    public Token createToken(UserDetails user) {
 
         log.info("Creating token for user: {}", user.getUsername());
 
         try {
+            Instant expiresAt = createExpirationTime();
             String token = JWT.create()
                     .withIssuer("akimob")
                     .withSubject(user.getUsername())
-                    .withExpiresAt(createExpirationTime())
+                    .withExpiresAt(expiresAt)
                     .sign(algorithm);
 
             log.info("Token created successfully for user: {}", user.getUsername());
 
-            return token;
+            return new Token(user.getUsername(), expiresAt, token);
 
         } catch (JWTCreationException e) {
             log.error("Error creating JWT token, {}", e.getMessage());
