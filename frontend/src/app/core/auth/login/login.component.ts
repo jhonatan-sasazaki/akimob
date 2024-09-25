@@ -44,6 +44,11 @@ export class LoginComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+
+    if (this.userService.isLoggedIn()) {
+      this.router.navigate(['/']);
+    }
+
     merge(this.password.valueChanges, this.password.statusChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
