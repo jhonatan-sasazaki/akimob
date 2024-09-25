@@ -9,8 +9,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { merge } from 'rxjs';
-import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user/user.service';
 
 const PASSWORD_REQUIRED_MESSAGE = $localize`:@@login.password.required:Password is required`;
 const PASSWORD_MIN_LENGTH_MESSAGE = $localize`:@@login.password.minLength:Password must be at least 8 characters long`;
@@ -40,7 +40,7 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
+    private userService: UserService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
@@ -70,7 +70,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authenticationService
+      this.userService
         .login(this.username.value!, this.password.value!)
         .subscribe({
           next: () => {

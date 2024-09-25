@@ -4,9 +4,8 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { TokenService } from './token/token.service';
 import { Authentication } from './models/authentication.model';
 import { AuthenticationResponse } from './models/authentication-response.model';
 
@@ -19,31 +18,17 @@ const GENERIC_ERROR_MESSAGE = $localize`:@@authentication.error:Something bad ha
 export class AuthenticationService {
   private LOGIN_URL = environment.apiUrl + '/login';
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  constructor(private http: HttpClient) {}
 
-  login(username: string, password: string) {
-    const authentication: Authentication = { username, password };
-    return this.authenticate(authentication).pipe(
-      map((response) => {
-        console.log('Authenticated', response);
-        this.tokenService.setToken(response.token);
-
-        return response;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  private authenticate(
+  authenticate(
     authentication: Authentication
   ): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(
-      this.LOGIN_URL,
-      authentication
-    );
+    return this.http
+      .post<AuthenticationResponse>(this.LOGIN_URL, authentication)
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse): Observable<Error> {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === HttpStatusCode.Unauthorized) {
       console.log('Unauthorized');
 

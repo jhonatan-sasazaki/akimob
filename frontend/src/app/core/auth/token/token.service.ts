@@ -7,7 +7,7 @@ import { Token } from './token.model';
 export class TokenService {
   setToken(token: Token) {
     localStorage.setItem('tokenSubject', token.subject);
-    localStorage.setItem('tokenExpiresAt', token.expiresAt.toString());
+    localStorage.setItem('tokenExpiresAt', (token.expiresAt * 1000).toString());
     localStorage.setItem('token', token.value);
   }
 
@@ -25,8 +25,7 @@ export class TokenService {
     localStorage.removeItem('token');
   }
 
-  isTokenValid(): boolean {
-    const token = this.getToken();
+  isTokenValid(token: Token): boolean {
     return token.expiresAt > Date.now();
   }
 }
