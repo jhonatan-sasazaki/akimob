@@ -7,7 +7,9 @@
 
 <mat-sidenav-container id="sidenav">
 
-    <mat-sidenav #sidenav mode="side" opened></mat-sidenav>
+    <mat-sidenav #sidenav mode="side" opened>
+        <app-sidenav></app-sidenav>
+    </mat-sidenav>
 
     <mat-sidenav-content>
         <router-outlet></router-outlet>

@@ -23,7 +23,7 @@ $theme: theme.$light-theme;
   // @include mat.radio-theme($theme);
   // @include mat.slider-theme($theme);
   // @include mat.menu-theme($theme);
-  // @include mat.list-theme($theme);
+  @include mat.list-theme($theme);
   // @include mat.paginator-theme($theme);
   // @include mat.tabs-theme($theme);
   // @include mat.checkbox-theme($theme);

@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { environment } from '../../../environments/environment';
+import { SidenavComponent } from "./sidenav/sidenav.component";
 
 @Component({
   selector: 'app-main',
@@ -15,7 +16,8 @@ import { environment } from '../../../environments/environment';
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-  ],
+    SidenavComponent
+],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
