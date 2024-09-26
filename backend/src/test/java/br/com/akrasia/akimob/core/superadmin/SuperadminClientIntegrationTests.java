@@ -20,11 +20,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import br.com.akrasia.akimob.IntegrationTests;
-import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.core.authentication.LoginAuthenticationService;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
 import br.com.akrasia.akimob.core.client.ClientRepository;
 import br.com.akrasia.akimob.core.client.ClientService;
+import br.com.akrasia.akimob.core.client.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.core.user.UserService;
 import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 import lombok.extern.slf4j.Slf4j;

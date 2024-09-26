@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.clientuser.dtos;
+package br.com.akrasia.akimob.core.client.dtos;
 
 import br.com.akrasia.akimob.core.client.Client;
 

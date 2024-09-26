@@ -29,13 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserResponseDTO;
-import br.com.akrasia.akimob.app.clientuser.dtos.ClientResponseDTO;
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
 import br.com.akrasia.akimob.core.client.ClientService;
 import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
+import br.com.akrasia.akimob.core.client.dtos.ClientCreateDTO;
+import br.com.akrasia.akimob.core.client.dtos.ClientResponseDTO;
 
 @WebMvcTest(controllers = SuperadminClientController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
         TokenAuthenticationFilter.class, ClientResolverFilter.class }))

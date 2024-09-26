@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserResponseDTO;
-import br.com.akrasia.akimob.app.clientuser.dtos.ClientResponseDTO;
 import br.com.akrasia.akimob.core.client.ClientService;
+import br.com.akrasia.akimob.core.client.dtos.ClientCreateDTO;
+import br.com.akrasia.akimob.core.client.dtos.ClientResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
