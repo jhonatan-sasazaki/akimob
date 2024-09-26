@@ -90,7 +90,7 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         @Test
         public void createClient_AuthenticatedButNotAuthorized() throws Exception {
                 String userToken = loginAuthenticationService.authenticate(new AuthenticationDTO("user", "password"))
-                                .value();
+                                .token().value();
                 ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
                 webTestClient.post().uri("/superadmin/clients")
@@ -106,7 +106,7 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         @Test
         public void createClient_Superadmin() throws Exception {
                 String superadminToken = loginAuthenticationService
-                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).token().value();
                 ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
 
                 webTestClient.post().uri("/superadmin/clients")
@@ -125,7 +125,7 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         @Test
         public void createClient_DuplicateName() throws Exception {
                 String superadminToken = loginAuthenticationService
-                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).token().value();
                 ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
                 ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client", "newclient2");
 
@@ -145,7 +145,7 @@ public class SuperadminClientIntegrationTests extends IntegrationTests {
         @Test
         public void createClient_DuplicateSchemaName() throws Exception {
                 String superadminToken = loginAuthenticationService
-                                .authenticate(new AuthenticationDTO("superadmin", "password")).value();
+                                .authenticate(new AuthenticationDTO("superadmin", "password")).token().value();
                 ClientCreateDTO clientCreateDTO = new ClientCreateDTO("New Client", "newclient");
                 ClientCreateDTO clientCreateDTO2 = new ClientCreateDTO("New Client 2", "newclient");
 

@@ -115,7 +115,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void createRoleGroup_AuthenticatedButNotAuthorized() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
 
         webTestClient.post().uri("/rolegroups")
@@ -135,7 +135,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void createRoleGroup_AuthenticatedAndAuthorized() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
 
         webTestClient.post().uri("/rolegroups")
@@ -157,7 +157,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void createRoleGroup_DuplicateName() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
         RoleGroupCreateDTO roleGroupCreateDTO2 = new RoleGroupCreateDTO("Role Group 1", "Description 2",
                 Set.of(1L, 2L));
@@ -189,8 +189,8 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void createRoleGroup_DuplicateNameDifferentClients() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
-        String user2Token = loginAuthenticationService.authenticate(user2AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
+        String user2Token = loginAuthenticationService.authenticate(user2AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
         RoleGroupCreateDTO roleGroupCreateDTO2 = new RoleGroupCreateDTO("Role Group 1", "Description 2",
                 Set.of(1L, 2L));
@@ -244,7 +244,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void updateRoleGroup_AuthenticatedButNotAuthorized() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user2AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
 
         ClientContext.setCurrentClient(client1Id);
@@ -266,7 +266,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void updateRoleGroup_AuthenticatedAndAuthorized() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
 
         ClientContext.setCurrentClient(client1Id);
@@ -295,7 +295,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void updateRoleGroup_DuplicateName() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
         RoleGroupCreateDTO roleGroupCreateDTO2 = new RoleGroupCreateDTO("Role Group 2", "Description 2",
                 Set.of(1L, 2L));
@@ -327,7 +327,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void updateRoleGroup_DuplicateNameDifferentClients() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
         RoleGroupCreateDTO roleGroupCreateDTO2 = new RoleGroupCreateDTO("Role Group 2", "Description 2",
                 Set.of(1L, 2L));
@@ -366,7 +366,7 @@ public class RoleGroupIntegrationTests extends IntegrationTests {
 
     @Test
     public void updateRoleGroup_NotFound() throws Exception {
-        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).value();
+        String userToken = loginAuthenticationService.authenticate(user1AuthenticationDTO).token().value();
         RoleGroupCreateDTO roleGroupCreateDTO = new RoleGroupCreateDTO("Role Group 1", "Description 1", Set.of(1L, 2L));
 
         webTestClient.put().uri("/rolegroups/999")
