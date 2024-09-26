@@ -13,12 +13,10 @@
   @include mat.input-theme(theme.$light-theme);
   @include mat.button-theme(theme.$light-theme);
   @include mat.snack-bar-theme(theme.$light-theme);
+  @include mat.sidenav-theme(theme.$light-theme);
 }
 
 html,
-body {
-  height: 100%;
-}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
