@@ -39,7 +39,7 @@ public class TokenService {
 
             log.info("Token created successfully for user: {}", user.getUsername());
 
-            return new Token(user.getUsername(), expiresAt, token);
+            return new Token(user.getUsername(), expiresAt.toEpochMilli(), token);
 
         } catch (JWTCreationException e) {
             log.error("Error creating JWT token, {}", e.getMessage());

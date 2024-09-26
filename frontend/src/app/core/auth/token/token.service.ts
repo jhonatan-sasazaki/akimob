@@ -7,7 +7,7 @@ import { Token } from './token.model';
 export class TokenService {
   setToken(token: Token) {
     localStorage.setItem('tokenSubject', token.subject);
-    localStorage.setItem('tokenExpiresAt', (token.expiresAt * 1000).toString());
+    localStorage.setItem('tokenExpiresAt', token.expiresAt.toString());
     localStorage.setItem('token', token.value);
   }
 
