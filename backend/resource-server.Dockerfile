@@ -6,14 +6,15 @@ WORKDIR /app
 
 # Copy the pom files and download the dependencies
 COPY pom.xml .
+COPY authorization-server/pom.xml ./authorization-server/
 COPY resource-server/pom.xml ./resource-server/
 RUN mvn dependency:go-offline -B
 
 # Copy the source code
-COPY resource-server ./resource-server
+COPY resource-server/src ./resource-server/src
 
 # Build the application
-RUN mvn package -DskipTests
+RUN mvn package -pl resource-server -am -DskipTests
 
 # Use a base image with Java installed
 FROM eclipse-temurin:21-alpine

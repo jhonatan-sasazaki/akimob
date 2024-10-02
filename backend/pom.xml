@@ -18,6 +18,7 @@
 	<description>Real estate management software</description>
 
 	<modules>
+		<module>authorization-server</module>
 		<module>resource-server</module>
 	</modules>
 

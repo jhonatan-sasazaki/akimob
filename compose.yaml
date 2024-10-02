@@ -12,10 +12,22 @@ services:
     ports:
       - "${DB_PORT}:5432"
 
-  backend:
+  authorization-server:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: authorization-server.Dockerfile
+    restart: always
+    volumes:
+      - ./backend/logs:/app/logs
+    ports:
+      - 8081:8080
+    depends_on:
+      - postgres
+
+  resource-server:
+    build:
+      context: ./backend
+      dockerfile: resource-server.Dockerfile
     restart: always
     environment:
       CORS_ALLOWED_ORIGINS: http://localhost:4200
