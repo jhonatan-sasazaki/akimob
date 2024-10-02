@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy the pom files and download the dependencies
 COPY pom.xml .
+COPY commons/pom.xml ./commons/
 COPY authorization-server/pom.xml ./authorization-server/
 COPY resource-server/pom.xml ./resource-server/
 RUN mvn dependency:go-offline -B

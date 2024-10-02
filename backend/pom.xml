@@ -18,6 +18,7 @@
 	<description>Real estate management software</description>
 
 	<modules>
+		<module>commons</module>
 		<module>authorization-server</module>
 		<module>resource-server</module>
 	</modules>
@@ -47,22 +48,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
