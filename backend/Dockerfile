@@ -4,12 +4,13 @@ FROM maven:3-eclipse-temurin-21-alpine AS build
 # Set the working directory
 WORKDIR /app
 
-# Copy the pom.xml and download the dependencies
+# Copy the pom files and download the dependencies
 COPY pom.xml .
+COPY resource-server/pom.xml ./resource-server/
 RUN mvn dependency:go-offline -B
 
 # Copy the source code
-COPY src ./src
+COPY resource-server ./resource-server
 
 # Build the application
 RUN mvn package -DskipTests
@@ -21,7 +22,7 @@ FROM eclipse-temurin:21-alpine
 WORKDIR /app
 
 # Copy the built JAR file from the previous stage
-COPY --from=build /app/target/*.jar akimob.jar
+COPY --from=build /app/resource-server/target/*.jar resource-server.jar
 
 # CORS
 ENV CORS_ALLOWED_ORIGINS=http://localhost:4200
@@ -45,4 +46,4 @@ ENV LOG_TOTAL_SIZE_CAP=10GB
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "akimob.jar"]
+CMD ["java", "-jar", "resource-server.jar"]
