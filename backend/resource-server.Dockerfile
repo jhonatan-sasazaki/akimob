@@ -12,6 +12,7 @@ COPY resource-server/pom.xml ./resource-server/
 RUN mvn dependency:go-offline -B
 
 # Copy the source code
+COPY commons/src ./commons/src
 COPY resource-server/src ./resource-server/src
 
 # Build the application
