@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.core.client.context;
+package br.com.akrasia.akimob.commons.core.client.context;
 
 import lombok.extern.slf4j.Slf4j;
 

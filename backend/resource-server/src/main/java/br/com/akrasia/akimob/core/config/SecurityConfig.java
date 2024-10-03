@@ -12,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
+import br.com.akrasia.akimob.commons.core.client.context.ClientResolverFilter;
 import br.com.akrasia.akimob.core.authentication.CustomAccessDeniedHandler;
 import br.com.akrasia.akimob.core.authentication.CustomAuthenticationEntryPoint;
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
-import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

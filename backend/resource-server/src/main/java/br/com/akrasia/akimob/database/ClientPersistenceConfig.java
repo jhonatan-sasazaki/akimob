@@ -19,8 +19,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import br.com.akrasia.akimob.core.client.context.CurrentClientIdentifierResolver;
-import br.com.akrasia.akimob.core.client.context.MultiClientConnectionProvider;
+import br.com.akrasia.akimob.commons.core.client.context.CurrentClientIdentifierResolver;
+import br.com.akrasia.akimob.commons.core.client.context.MultiClientConnectionProvider;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration(proxyBeanMethods = false)

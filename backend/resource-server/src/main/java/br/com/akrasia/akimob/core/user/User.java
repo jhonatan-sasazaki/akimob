@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.akrasia.akimob.core.client.Client;
+import br.com.akrasia.akimob.commons.core.client.Client;
 import br.com.akrasia.akimob.core.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

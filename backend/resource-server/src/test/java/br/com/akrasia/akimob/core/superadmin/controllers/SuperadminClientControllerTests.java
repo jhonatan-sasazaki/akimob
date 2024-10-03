@@ -31,9 +31,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserResponseDTO;
+import br.com.akrasia.akimob.commons.core.client.context.ClientResolverFilter;
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
 import br.com.akrasia.akimob.core.client.ClientService;
-import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
 import br.com.akrasia.akimob.core.client.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.core.client.dtos.ClientResponseDTO;
 

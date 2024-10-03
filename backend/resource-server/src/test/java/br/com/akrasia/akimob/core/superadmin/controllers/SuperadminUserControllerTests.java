@@ -27,8 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.akrasia.akimob.commons.core.client.context.ClientResolverFilter;
 import br.com.akrasia.akimob.core.authentication.token.TokenAuthenticationFilter;
-import br.com.akrasia.akimob.core.client.context.ClientResolverFilter;
 import br.com.akrasia.akimob.core.user.UserService;
 import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 import br.com.akrasia.akimob.core.user.dtos.UserResponseDTO;

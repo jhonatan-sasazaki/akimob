@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.core.client;
+package br.com.akrasia.akimob.commons.core.client;
 
 import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;

@@ -21,14 +21,15 @@ import jakarta.persistence.EntityManagerFactory;
 
 @Configuration(proxyBeanMethods = false)
 @EnableJpaRepositories(basePackages = {
-        "${akimob.main.repository.packages}" }, entityManagerFactoryRef = "mainEntityManagerFactory", transactionManagerRef = "mainTransactionManager")
+        "br.com.akrasia.akimob.core",
+        "br.com.akrasia.akimob.commons.core" }, entityManagerFactoryRef = "mainEntityManagerFactory", transactionManagerRef = "mainTransactionManager")
 public class MainPersistenceConfig {
 
     private final JpaProperties jpaProperties;
-    private final String entityPackages;
+    private final String[] entityPackages;
 
     public MainPersistenceConfig(JpaProperties jpaProperties,
-            @Value("${akimob.main.repository.packages}") String entityPackages) {
+            @Value("${akimob.main.repository.packages}") String[] entityPackages) {
         this.jpaProperties = jpaProperties;
         this.entityPackages = entityPackages;
     }
