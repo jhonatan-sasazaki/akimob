@@ -9,11 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.akrasia.akimob.commons.core.client.Client;
+import br.com.akrasia.akimob.commons.core.user.User;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationResponseDTO;
 import br.com.akrasia.akimob.core.authentication.token.Token;
 import br.com.akrasia.akimob.core.authentication.token.TokenService;
-import br.com.akrasia.akimob.core.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

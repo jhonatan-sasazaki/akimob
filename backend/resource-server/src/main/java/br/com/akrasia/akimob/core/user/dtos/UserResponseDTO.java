@@ -1,6 +1,6 @@
 package br.com.akrasia.akimob.core.user.dtos;
 
-import br.com.akrasia.akimob.core.user.User;
+import br.com.akrasia.akimob.commons.core.user.User;
 
 public record UserResponseDTO(Long id, String username, String email) {
 

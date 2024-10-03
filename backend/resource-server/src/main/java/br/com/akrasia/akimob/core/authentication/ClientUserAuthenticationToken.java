@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import br.com.akrasia.akimob.app.clientuser.ClientUser;
-import br.com.akrasia.akimob.core.user.User;
+import br.com.akrasia.akimob.commons.core.user.User;
 
 public class ClientUserAuthenticationToken implements Authentication {
 

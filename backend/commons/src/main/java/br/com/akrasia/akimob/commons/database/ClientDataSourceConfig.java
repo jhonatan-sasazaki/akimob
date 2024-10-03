@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.database;
+package br.com.akrasia.akimob.commons.database;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

@@ -6,7 +6,8 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.akrasia.akimob.core.superadmin.Superadmin;
+import br.com.akrasia.akimob.commons.core.superadmin.Superadmin;
+import br.com.akrasia.akimob.commons.core.user.User;
 import br.com.akrasia.akimob.core.user.dtos.UserCreateDTO;
 import br.com.akrasia.akimob.core.user.dtos.UserResponseDTO;
 import lombok.RequiredArgsConstructor;

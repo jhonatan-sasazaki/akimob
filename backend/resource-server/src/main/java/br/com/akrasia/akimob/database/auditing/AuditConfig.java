@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import br.com.akrasia.akimob.core.user.User;
+import br.com.akrasia.akimob.commons.core.user.User;
 
 @Configuration
 @EnableJpaAuditing

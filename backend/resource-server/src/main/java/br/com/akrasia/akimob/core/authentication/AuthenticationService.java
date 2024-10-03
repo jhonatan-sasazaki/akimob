@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.akrasia.akimob.core.user.User;
+import br.com.akrasia.akimob.commons.core.user.User;
 import br.com.akrasia.akimob.core.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 

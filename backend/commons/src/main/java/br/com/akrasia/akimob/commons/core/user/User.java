@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.core.user;
+package br.com.akrasia.akimob.commons.core.user;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.akrasia.akimob.commons.core.client.Client;
-import br.com.akrasia.akimob.core.superadmin.Superadmin;
+import br.com.akrasia.akimob.commons.core.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

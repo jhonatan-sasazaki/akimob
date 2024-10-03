@@ -5,7 +5,8 @@ import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import br.com.akrasia.akimob.core.user.User;
+
+import br.com.akrasia.akimob.commons.core.user.User;
 
 public class SpringSecurityAuditorAware implements AuditorAware<User> {
 
