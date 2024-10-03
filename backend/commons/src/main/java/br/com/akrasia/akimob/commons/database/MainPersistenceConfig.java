@@ -22,7 +22,8 @@ import jakarta.persistence.EntityManagerFactory;
 @Configuration(proxyBeanMethods = false)
 @EnableJpaRepositories(basePackages = {
         "br.com.akrasia.akimob.core",
-        "br.com.akrasia.akimob.commons.core" }, entityManagerFactoryRef = "mainEntityManagerFactory", transactionManagerRef = "mainTransactionManager")
+        "br.com.akrasia.akimob.commons.core",
+        "br.com.akrasia.akimob.authorization.user" }, entityManagerFactoryRef = "mainEntityManagerFactory", transactionManagerRef = "mainTransactionManager")
 public class MainPersistenceConfig {
 
     private final JpaProperties jpaProperties;
