@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.rolegroup;
+package br.com.akrasia.akimob.commons.app.rolegroup;
 
 import java.util.HashMap;
 import java.util.HashSet;

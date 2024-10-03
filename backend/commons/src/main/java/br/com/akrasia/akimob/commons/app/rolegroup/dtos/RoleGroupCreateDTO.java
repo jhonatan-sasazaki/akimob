@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.rolegroup.dtos;
+package br.com.akrasia.akimob.commons.app.rolegroup.dtos;
 
 import java.util.Set;
 

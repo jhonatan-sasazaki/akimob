@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import br.com.akrasia.akimob.app.rolegroup.RoleGroup;
+import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroup;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

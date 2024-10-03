@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.akrasia.akimob.app.clientuser.ClientUserService;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserResponseDTO;
-import br.com.akrasia.akimob.app.rolegroup.RoleGroupService;
+import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroupService;
 import br.com.akrasia.akimob.core.client.context.ClientContext;
 import br.com.akrasia.akimob.core.client.dtos.ClientCreateDTO;
 import br.com.akrasia.akimob.core.client.dtos.ClientResponseDTO;

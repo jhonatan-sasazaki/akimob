@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientUserDTO;
-import br.com.akrasia.akimob.app.rolegroup.RoleGroup;
-import br.com.akrasia.akimob.app.rolegroup.RoleGroupRepoository;
+import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroup;
+import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroupRepoository;
 import br.com.akrasia.akimob.core.authentication.ClientUserAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 

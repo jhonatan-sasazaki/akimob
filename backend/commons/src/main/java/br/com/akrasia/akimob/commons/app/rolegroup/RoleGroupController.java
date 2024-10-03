@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.rolegroup;
+package br.com.akrasia.akimob.commons.app.rolegroup;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.akrasia.akimob.app.rolegroup.dtos.RoleGroupCreateDTO;
-import br.com.akrasia.akimob.app.rolegroup.dtos.RoleGroupResponseDTO;
+import br.com.akrasia.akimob.commons.app.rolegroup.dtos.RoleGroupCreateDTO;
+import br.com.akrasia.akimob.commons.app.rolegroup.dtos.RoleGroupResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
