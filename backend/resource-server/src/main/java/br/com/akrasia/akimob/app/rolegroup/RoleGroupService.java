@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import br.com.akrasia.akimob.app.authority.Authority;
-import br.com.akrasia.akimob.app.authority.AuthorityRepository;
-import br.com.akrasia.akimob.app.authority.AuthorityService;
 import br.com.akrasia.akimob.app.rolegroup.dtos.RoleGroupCreateDTO;
 import br.com.akrasia.akimob.app.rolegroup.dtos.RoleGroupResponseDTO;
+import br.com.akrasia.akimob.commons.app.authority.Authority;
+import br.com.akrasia.akimob.commons.app.authority.AuthorityRepository;
+import br.com.akrasia.akimob.commons.app.authority.AuthorityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

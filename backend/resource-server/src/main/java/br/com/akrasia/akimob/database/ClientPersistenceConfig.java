@@ -25,16 +25,17 @@ import jakarta.persistence.EntityManagerFactory;
 
 @Configuration(proxyBeanMethods = false)
 @EnableJpaRepositories(basePackages = {
-        "${akimob.client.repository.packages}" }, entityManagerFactoryRef = "clientEntityManagerFactory", transactionManagerRef = "clientTransactionManager")
+        "br.com.akrasia.akimob.app",
+        "br.com.akrasia.akimob.commons.app" }, entityManagerFactoryRef = "clientEntityManagerFactory", transactionManagerRef = "clientTransactionManager")
 public class ClientPersistenceConfig {
 
     private final JpaProperties jpaProperties;
-    private final String entityPackages;
+    private final String[] entityPackages;
     private final CurrentClientIdentifierResolver currentClientIdentifierResolver;
     private final MultiClientConnectionProvider multiClientConnectionProvider;
 
     public ClientPersistenceConfig(
-            @Value("${akimob.client.repository.packages}") String entityPackages,
+            @Value("${akimob.client.repository.packages}") String[] entityPackages,
             JpaProperties jpaProperties,
             CurrentClientIdentifierResolver currentClientIdentifierResolver,
             MultiClientConnectionProvider multiClientConnectionProvider) {

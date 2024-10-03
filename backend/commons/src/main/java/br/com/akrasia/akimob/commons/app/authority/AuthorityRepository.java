@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.authority;
+package br.com.akrasia.akimob.commons.app.authority;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

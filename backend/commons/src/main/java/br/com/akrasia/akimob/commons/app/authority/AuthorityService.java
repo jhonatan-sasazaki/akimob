@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.authority;
+package br.com.akrasia.akimob.commons.app.authority;
 
 import java.util.HashMap;
 import org.springframework.stereotype.Service;

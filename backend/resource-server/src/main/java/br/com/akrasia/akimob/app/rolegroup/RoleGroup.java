@@ -2,7 +2,7 @@ package br.com.akrasia.akimob.app.rolegroup;
 
 import java.util.Set;
 
-import br.com.akrasia.akimob.app.authority.Authority;
+import br.com.akrasia.akimob.commons.app.authority.Authority;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,11 +31,7 @@ public class RoleGroup {
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "role_group_authority",
-        joinColumns = @JoinColumn(name = "role_group_id"),
-        inverseJoinColumns = @JoinColumn(name = "authority_id")
-    )
+    @JoinTable(name = "role_group_authority", joinColumns = @JoinColumn(name = "role_group_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities;
 
 }

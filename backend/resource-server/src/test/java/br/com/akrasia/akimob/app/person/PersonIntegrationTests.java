@@ -18,14 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import br.com.akrasia.akimob.IntegrationTests;
-import br.com.akrasia.akimob.app.authority.Authority;
-import br.com.akrasia.akimob.app.authority.AuthorityService;
 import br.com.akrasia.akimob.app.clientuser.ClientUserService;
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
 import br.com.akrasia.akimob.app.person.dtos.PersonCreateDTO;
 import br.com.akrasia.akimob.app.person.entities.Person.Type;
 import br.com.akrasia.akimob.app.rolegroup.RoleGroup;
 import br.com.akrasia.akimob.app.rolegroup.RoleGroupRepoository;
+import br.com.akrasia.akimob.commons.app.authority.Authority;
+import br.com.akrasia.akimob.commons.app.authority.AuthorityService;
 import br.com.akrasia.akimob.core.authentication.LoginAuthenticationService;
 import br.com.akrasia.akimob.core.authentication.dtos.AuthenticationDTO;
 import br.com.akrasia.akimob.core.client.ClientService;
