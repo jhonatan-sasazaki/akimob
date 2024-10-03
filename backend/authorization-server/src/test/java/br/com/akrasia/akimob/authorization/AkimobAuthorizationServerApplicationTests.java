@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob_authorization_server;
+package br.com.akrasia.akimob.authorization;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

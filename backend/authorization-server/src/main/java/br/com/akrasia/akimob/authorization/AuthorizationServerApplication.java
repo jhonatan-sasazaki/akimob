@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob;
+package br.com.akrasia.akimob.authorization;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
