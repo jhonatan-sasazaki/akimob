@@ -27,6 +27,17 @@ WORKDIR /app
 # Copy the built JAR file from the previous stage
 COPY --from=build /app/authorization-server/target/*.jar authorization-server.jar
 
+# Database connection
+ENV DB_HOST=localhost
+ENV DB_PORT=5432
+ENV DB_NAME=akimob
+ENV DB_USERNAME=akimob
+ENV DB_PASSWORD=your_password
+# OAuth
+ENV CLIENT_SECRET_ENCODED=encoded_akimob
+ENV CLIENT_URL=http://localhost:8080
+ENV ISSUER_URI=http://127.0.0.1:8081
+
 # Expose the port on which the application will run
 EXPOSE 8080
 

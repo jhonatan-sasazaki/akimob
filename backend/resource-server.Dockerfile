@@ -35,8 +35,11 @@ ENV DB_PORT=5432
 ENV DB_NAME=akimob
 ENV DB_USERNAME=akimob
 ENV DB_PASSWORD=your_password
-# JWT
-ENV JWT_SECRET=your-very-secure-secret
+# OAuth
+ENV ISSUER_URI=http://authorization-server:8081
+ENV AUTHORIZATION_URL=http://127.0.0.1:8081
+ENV CLIENT_SECRET=akimob
+ENV CLIENT_URL=http://localhost:8080
 # Super admin user
 ENV SUPER_ADMIN_USERNAME=superadmin
 ENV SUPER_ADMIN_PASSWORD=superadmin

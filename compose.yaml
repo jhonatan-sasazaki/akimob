@@ -17,6 +17,15 @@ services:
       context: ./backend
       dockerfile: authorization-server.Dockerfile
     restart: always
+    environment:
+      DB_HOSTNAME: postgres
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ISSUER_URI: ${ISSUER_URI}
+      CLIENT_SECRET_ENCODED: ${CLIENT_SECRET_ENCODED}
+      CLIENT_URL: ${CLIENT_URL}
     volumes:
       - ./backend/logs:/app/logs
     ports:
@@ -36,7 +45,10 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
+      ISSUER_URI: ${ISSUER_URI}
+      AUTHORIZATION_URL: ${AUTHORIZATION_URL}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      CLIENT_URL: ${CLIENT_URL}
       SUPER_ADMIN_USERNAME: ${SUPER_ADMIN_USERNAME}
       SUPER_ADMIN_PASSWORD: ${SUPER_ADMIN_PASSWORD}
       SUPER_ADMIN_EMAIL: ${SUPER_ADMIN_EMAIL}
@@ -48,6 +60,7 @@ services:
       - 8080:8080
     depends_on:
       - postgres
+      - authorization-server
 
 volumes:
   postgres_data:
