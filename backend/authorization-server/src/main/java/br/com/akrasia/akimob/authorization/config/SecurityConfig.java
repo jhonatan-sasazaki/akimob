@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import com.nimbusds.jose.jwk.JWKSet;
@@ -29,9 +30,15 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import br.com.akrasia.akimob.commons.core.client.context.ClientResolverFilter;
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final ClientResolverFilter clientResolverFilter;
 
     @Bean
     @Order(1)
@@ -64,6 +71,8 @@ public class SecurityConfig {
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
                 .formLogin(Customizer.withDefaults());
+
+        http.addFilterBefore(clientResolverFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
