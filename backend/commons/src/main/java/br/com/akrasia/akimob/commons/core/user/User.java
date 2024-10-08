@@ -1,17 +1,11 @@
 package br.com.akrasia.akimob.commons.core.user;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import br.com.akrasia.akimob.commons.core.client.Client;
 import br.com.akrasia.akimob.commons.core.superadmin.Superadmin;
 import jakarta.persistence.CascadeType;
@@ -36,7 +30,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,17 +55,4 @@ public class User implements UserDetails {
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        if (this.isSuperadmin()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
-        }
-        return grantedAuthorities;
-    }
-
-    public boolean isSuperadmin() {
-        return this.superadmin != null;
-    }
 }

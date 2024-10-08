@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.akrasia.akimob.authorization.OAuthUser;
 import br.com.akrasia.akimob.commons.core.user.User;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +22,13 @@ public class UserService implements UserDetailsService {
 
         Optional<User> user = userRepository.findByUsername(username);
 
-        return user.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        OAuthUser oauthUser = new OAuthUser(user.get());
+
+        return oauthUser;
     }
 
 }
