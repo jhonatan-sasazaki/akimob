@@ -3,6 +3,8 @@ package br.com.akrasia.akimob.app.clientuser;
 import org.springframework.stereotype.Service;
 
 import br.com.akrasia.akimob.app.clientuser.dtos.ClientCreateUserDTO;
+import br.com.akrasia.akimob.commons.app.clientuser.ClientUser;
+import br.com.akrasia.akimob.commons.app.clientuser.ClientUserRepository;
 import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroup;
 import br.com.akrasia.akimob.commons.app.rolegroup.RoleGroupRepoository;
 import lombok.RequiredArgsConstructor;

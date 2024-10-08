@@ -1,4 +1,4 @@
-package br.com.akrasia.akimob.app.clientuser;
+package br.com.akrasia.akimob.commons.app.clientuser;
 
 import java.util.Collection;
 import java.util.HashSet;
