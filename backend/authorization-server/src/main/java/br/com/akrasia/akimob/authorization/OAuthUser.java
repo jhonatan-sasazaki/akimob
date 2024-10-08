@@ -8,14 +8,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.akrasia.akimob.commons.app.clientuser.ClientUser;
 import br.com.akrasia.akimob.commons.core.user.User;
 
 public class OAuthUser implements UserDetails {
 
     private User user;
+    private ClientUser clientUser;
 
     public OAuthUser(User user) {
         this.user = user;
+    }
+
+    public OAuthUser(User user, ClientUser clientUser) {
+        this.user = user;
+        this.clientUser = clientUser;
     }
 
     @Override
@@ -23,6 +30,9 @@ public class OAuthUser implements UserDetails {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         if (this.isSuperadmin()) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
+        }
+        if (clientUser != null) {
+            grantedAuthorities.addAll(clientUser.getAuthorities());
         }
         return grantedAuthorities;
     }
