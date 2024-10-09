@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient.RequestHeadersSpec.ConvertibleClientHttpResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,24 +40,30 @@ public class BffFilter extends OncePerRequestFilter {
         forward(request, response);
     }
 
-    public void forward(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void forward(HttpServletRequest request, HttpServletResponse response) {
 
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
         String uri = resourceUrl + request.getRequestURI();
         String bearer = "Bearer " + getAuthorizedClient(request, response);
+        byte[] body = null;
+        try {
+            body = request.getInputStream().readAllBytes();
+        } catch (IOException e) {
+            log.error("Error reading request body", e);
+        }
 
-        ResponseEntity<String> responseEntity = restClient.method(method)
+        restClient.method(method)
                 .uri(uri)
                 .header("Authorization", bearer)
-                .retrieve()
-                .toEntity(String.class);
-
-        response.setStatus(responseEntity.getStatusCode().value());
-
-        responseEntity.getHeaders().forEach((key, value) -> response.setHeader(key, value.get(0)));
-        response.getWriter().write(responseEntity.getBody());
-        response.getWriter().flush();
-        response.getWriter().close();
+                .body(body)
+                .exchange((req, resourceResponse) -> {
+                    try {
+                        writeResponse(response, resourceResponse);
+                    } catch (IOException e) {
+                        log.error("Error writing response", e);
+                    }
+                    return null;
+                });
 
     }
 
@@ -71,6 +77,16 @@ public class BffFilter extends OncePerRequestFilter {
                 .build();
 
         return authorizedClientManager.authorize(authorizeRequest).getAccessToken().getTokenValue();
+    }
+
+    private void writeResponse(HttpServletResponse response, ConvertibleClientHttpResponse resourceResponse)
+            throws IOException {
+        response.setStatus(resourceResponse.getStatusCode().value());
+
+        resourceResponse.getHeaders().forEach((key, value) -> response.setHeader(key, value.get(0)));
+        response.getOutputStream().write(resourceResponse.getBody().readAllBytes());
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
 
 }
