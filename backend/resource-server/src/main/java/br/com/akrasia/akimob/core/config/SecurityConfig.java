@@ -13,10 +13,12 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestCustomizers;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import br.com.akrasia.akimob.commons.core.client.context.ClientResolverFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final BffFilter bffFilter;
+    private final ClientResolverFilter clientResolverFilter;
 
     @Bean
     @Order(1)
@@ -36,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resource -> resource.jwt(Customizer.withDefaults()))
+                .addFilterBefore(clientResolverFilter, BearerTokenAuthenticationFilter.class)
                 .build();
     }
 
@@ -68,6 +72,14 @@ public class SecurityConfig {
     @Bean
     public FilterRegistrationBean<BffFilter> bffFilterRegistration(BffFilter filter) {
         FilterRegistrationBean<BffFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false);
+        return registration;
+    }
+
+    @Bean
+    public FilterRegistrationBean<ClientResolverFilter> clientResolverFilterRegistration(
+            ClientResolverFilter filter) {
+        FilterRegistrationBean<ClientResolverFilter> registration = new FilterRegistrationBean<>(filter);
         registration.setEnabled(false);
         return registration;
     }
