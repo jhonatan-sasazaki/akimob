@@ -32,7 +32,7 @@ public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection
             authorities.add("ROLE_SUPERADMIN");
         }
 
-        Map<String, String[]> authoritiesClaim = jwt.getClaim("authorities");
+        Map<String, Collection<String>> authoritiesClaim = jwt.getClaim("authorities");
         String currentClient = ClientContext.getCurrentClient();
         if (authoritiesClaim.containsKey(currentClient)) {
             for (String authority : authoritiesClaim.get(currentClient)) {
