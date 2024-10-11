@@ -19,10 +19,11 @@ public class UserController {
     public ResponseEntity<UserInfoDTO> getUserInfo(JwtAuthenticationToken principal) {
         Jwt jwt = principal.getToken();
 
+        String subject = jwt.getSubject();
         Boolean superadmin = jwt.getClaimAsBoolean("superadmin");
         Map<String, Collection<String>> clientsUsers = jwt.getClaim("authorities");
 
-        UserInfoDTO userInfo = new UserInfoDTO(superadmin, clientsUsers);
+        UserInfoDTO userInfo = new UserInfoDTO(subject, superadmin, clientsUsers);
         return ResponseEntity.ok(userInfo);
     }
 
