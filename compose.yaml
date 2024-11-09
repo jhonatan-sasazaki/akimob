@@ -62,5 +62,17 @@ services:
       - postgres
       - authorization-server
 
+  nginx:
+    build:
+      dockerfile: ./nginx/Dockerfile
+      args:
+        CERT_FILE: ${CERT_FILE}
+        CERT_KEY_FILE: ${CERT_KEY_FILE}
+        SERVER_NAME: ${SERVER_NAME}
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+
 volumes:
   postgres_data:

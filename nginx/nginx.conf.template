@@ -1,0 +1,40 @@
+events{}
+
+http {
+    # Browser preferred language detection (does NOT require AcceptLanguageModule)
+    map $http_accept_language $accept_language {
+        ~*^pt pt;
+        ~*^en en-US;
+    }
+
+    server {
+        listen 80;
+        server_name ${SERVER_NAME};
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+
+        listen 443 ssl;
+        server_name ${SERVER_NAME};
+        root /usr/share/nginx/html/;
+
+        include /etc/nginx/mime.types;
+
+        # Fallback to default language if no preference defined by browser
+        if ($accept_language ~ "^$") {
+            set $accept_language "pt";
+        }
+
+        # Redirect "/" to Angular application in the preferred language of the browser
+        rewrite ^/$ /$accept_language permanent;
+
+        # Everything under the Angular application is always redirected to Angular in the correct language
+        location ~ ^/(pt|en-US) {
+            try_files $uri /$1/index.html?$args;
+        }  
+
+        ssl_certificate /etc/nginx/ssl/nginx.crt;
+        ssl_certificate_key /etc/nginx/ssl/nginx.key;
+    }
+}
