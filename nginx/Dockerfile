@@ -3,7 +3,8 @@
 # Build the Angular project
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY ./frontend .
+COPY ./frontend/*.json .
+COPY ./frontend/src ./src
 RUN npm ci
 RUN npm run build
 
