@@ -74,5 +74,15 @@ services:
       - 80:80
       - 443:443
 
+  angular:
+    build: ./frontend
+    restart: always
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - 4200:4200
+    profiles:
+      - dev
+
 volumes:
   postgres_data:
